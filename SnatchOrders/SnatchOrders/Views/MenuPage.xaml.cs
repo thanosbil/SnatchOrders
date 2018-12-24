@@ -18,8 +18,8 @@ namespace SnatchOrders.Views
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" }
+                new HomeMenuItem {Id = MenuItemType.Home, Title="Αρχική" },
+                new HomeMenuItem {Id = MenuItemType.About, Title="Σχετικά με την εφαρμογή" }
             };
 
             ListViewMenu.ItemsSource = menuItems;

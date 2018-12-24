@@ -9,11 +9,13 @@ namespace SnatchOrders.Models
     /// </summary>
     public class Order
     {
-        public List<Item> Whiskey { get; set; }
-        public List<Item> Vodka { get; set; }
-        public List<Item> Rum { get; set; }
-        public List<Item> Tequila { get; set; }
-        public List<Item> Gin{ get; set; }
-        public List<Item> OtherLiquors { get; set; }
+        /// <summary>
+        /// Όλα τα προϊόντα που περιέχει η παραγγελία
+        /// </summary>
+        public List<Item> AllItems { get; set; }
+        /// <summary>
+        /// Ημερομηνία αποστολής της παραγγελίας
+        /// </summary>
+        public DateTime DateSent { get; set; }
     }
 }
