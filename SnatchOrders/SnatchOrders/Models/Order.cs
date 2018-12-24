@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,9 +10,13 @@ namespace SnatchOrders.Models
     /// </summary>
     public class Order
     {
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+
         /// <summary>
         /// Όλα τα προϊόντα που περιέχει η παραγγελία
         /// </summary>
+        [Ignore]
         public List<Item> AllItems { get; set; }
         /// <summary>
         /// Ημερομηνία αποστολής της παραγγελίας

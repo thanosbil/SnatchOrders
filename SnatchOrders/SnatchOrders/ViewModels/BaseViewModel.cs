@@ -6,13 +6,11 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 
 using SnatchOrders.Models;
-using SnatchOrders.Services;
 
 namespace SnatchOrders.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
 
         bool isBusy = false;
         public bool IsBusy
