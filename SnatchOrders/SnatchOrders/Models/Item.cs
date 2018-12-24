@@ -11,7 +11,12 @@ namespace SnatchOrders.Models
         /// <summary>
         /// Id παραγγελίας
         /// </summary>
-        public int OrderId { get; set; }        
+        public int OrderId { get; set; }
+
+        /// <summary>
+        /// Id κατηγορίας προϊόντος
+        /// </summary>
+        public int CategoryId { get; set; }
 
         /// <summary>
         /// Περιγραφή έίδους
