@@ -15,6 +15,7 @@ namespace SnatchOrders.Data
             database = new SQLiteAsyncConnection(dbPath);
             
             database.CreateTableAsync<Order>().Wait();
+            database.CreateTableAsync<Category>().Wait();
             database.CreateTableAsync<Item>().Wait();
         }
 
