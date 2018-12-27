@@ -1,10 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SnatchOrders.Views.OrdersPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
+             x:Class="SnatchOrders.Views.OrdersPage">   
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
-            <Button Text="Νέα παραγγελία" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand" CornerRadius="7"/>
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Padding="10" BackgroundColor="#80e27e">
+                <Button Text="Νέα παραγγελία" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" CornerRadius="7"
+                        Command="{Binding Path=NewOrder}"/>
+            </StackLayout>            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
