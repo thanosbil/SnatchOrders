@@ -22,5 +22,10 @@ namespace SnatchOrders.Models
         /// Ημερομηνία αποστολής της παραγγελίας
         /// </summary>
         public DateTime DateSent { get; set; }
+
+        /// <summary>
+        /// Σε ποιον στάλθηκε η παραγγελία
+        /// </summary>
+        public string OrderRecipient { get; set; }
     }
 }
