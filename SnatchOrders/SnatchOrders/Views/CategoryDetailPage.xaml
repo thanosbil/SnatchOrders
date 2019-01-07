@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SnatchOrders.Views.CategoryDetailPage">
+    <ContentPage.Content>
+        <StackLayout Padding="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <BoxView BackgroundColor="#80e27e" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" CornerRadius="7"
+                         Grid.RowSpan="2"/>
+                <Label Grid.Row="0" Margin="5,5,5,0" Text="Ορίστε το όνομα της κατηγορίας" TextColor="White" FontAttributes="Bold"/>
+                <Entry Grid.Row="1" Margin="5" BackgroundColor="White"/>
+            </Grid>
+            <Button Margin="0,15,0,0" CornerRadius="7" HorizontalOptions="FillAndExpand" Text="Αποθήκευση κατηγορίας" Command="{Binding CreateNewCategory}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

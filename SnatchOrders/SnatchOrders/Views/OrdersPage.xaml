@@ -4,6 +4,9 @@
              x:Class="SnatchOrders.Views.OrdersPage">   
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
+            <ListView>
+                
+            </ListView>
             <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Padding="10" BackgroundColor="#80e27e">
                 <Button Text="Νέα παραγγελία" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" CornerRadius="7"
                         Command="{Binding Path=NewOrder}"/>

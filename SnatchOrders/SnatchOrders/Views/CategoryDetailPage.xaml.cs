@@ -11,16 +11,16 @@ using Xamarin.Forms.Xaml;
 namespace SnatchOrders.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CategoriesPage : ContentPage
+	public partial class CategoryDetailPage : ContentPage
 	{
-        CategoriesVM categoriesVM;
+        CategoryDetailVM categoryDetailVM;
 
-		public CategoriesPage ()
+        public CategoryDetailPage ()
 		{
 			InitializeComponent ();
-            Title = "Κατηγορίες";
-            categoriesVM = new CategoriesVM(Navigation);
-            BindingContext = categoriesVM;
+            Title = "Νέα κατηγορία";
+            categoryDetailVM = new CategoryDetailVM(Navigation);
+            BindingContext = categoryDetailVM;
 		}
 	}
 }

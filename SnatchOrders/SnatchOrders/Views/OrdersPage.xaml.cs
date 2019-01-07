@@ -20,6 +20,7 @@ namespace SnatchOrders.Views
 			InitializeComponent ();
             ordersVM = new OrdersVM(Navigation);
             BindingContext = ordersVM;
+            Title = "Παραγγελίες";
 		}
 	}
 }

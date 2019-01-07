@@ -20,7 +20,7 @@ namespace SnatchOrders.ViewModels
 
         private async void MakeNewOrder()
         {
-           await _navigation.PushAsync(new NewItemPage());
+           await _navigation.PushAsync(new CategoriesPage());
         }
     }
 }
