@@ -22,5 +22,12 @@ namespace SnatchOrders.Views
             categoriesVM = new CategoriesVM(Navigation);
             BindingContext = categoriesVM;
 		}
-	}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            categoriesVM.GetCategoriesList();
+        }
+    }
 }

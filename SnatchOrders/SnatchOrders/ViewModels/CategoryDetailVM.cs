@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SnatchOrders.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
@@ -13,12 +14,15 @@ namespace SnatchOrders.ViewModels
 
         public CategoryDetailVM(INavigation navigation)
         {
-            CreateNewCategory = new Command(AddCategory);
+            CreateNewCategory = new Command<string>(AddCategory);
             _navigation = navigation;
         }
 
-        private async void AddCategory(object obj)
+        private async void AddCategory(string Description)
         {
+            Category temp = new Category();
+            temp.Description = Description;
+            await App.Database.SaveCategoryAsync(temp);
             await _navigation.PopAsync();
         }
     }

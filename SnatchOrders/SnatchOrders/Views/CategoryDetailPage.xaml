@@ -15,9 +15,10 @@
                 <BoxView BackgroundColor="#80e27e" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" CornerRadius="7"
                          Grid.RowSpan="2"/>
                 <Label Grid.Row="0" Margin="5,5,5,0" Text="Ορίστε το όνομα της κατηγορίας" TextColor="White" FontAttributes="Bold"/>
-                <Entry Grid.Row="1" Margin="5" BackgroundColor="White"/>
+                <Entry Grid.Row="1" Margin="5" BackgroundColor="White" x:Name="CategoryDescriptionEntry"/>
             </Grid>
-            <Button Margin="0,15,0,0" CornerRadius="7" HorizontalOptions="FillAndExpand" Text="Αποθήκευση κατηγορίας" Command="{Binding CreateNewCategory}"/>
+            <Button Margin="0,15,0,0" CornerRadius="7" HorizontalOptions="FillAndExpand" Text="Αποθήκευση κατηγορίας" Command="{Binding CreateNewCategory}"
+                    CommandParameter="{Binding Source={x:Reference CategoryDescriptionEntry}, Path=Text}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
