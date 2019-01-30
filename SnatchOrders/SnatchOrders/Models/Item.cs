@@ -6,7 +6,7 @@ namespace SnatchOrders.Models
     public class Item
     {
         [PrimaryKey, AutoIncrement]
-        public string ID { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// Id παραγγελίας

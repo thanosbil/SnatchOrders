@@ -3,6 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SnatchOrders.Data
 {
@@ -18,6 +19,129 @@ namespace SnatchOrders.Data
             database.CreateTableAsync<Category>().Wait();
             database.CreateTableAsync<Item>().Wait();
         }
+
+        #region Order
+
+
+        /// <summary>
+        /// Φέρνει όλες τις παραγγελίες
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Order>> GetOrdersAsync()
+        {
+            return database.Table<Order>().ToListAsync();
+        }
+
+
+        /// <summary>
+        /// Αποθηκεύει μια παραγγελία
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> SaveOrderAsync(Order item)
+        {
+            if (item.ID != 0)
+            {
+                return database.UpdateAsync(item);
+            }
+            else
+            {
+                return database.InsertAsync(item);
+            }
+        }
+
+        /// <summary>
+        /// Διαγράφει μια παραγγελία
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> DeleteOrderAsync(Order item)
+        {
+            return database.DeleteAsync(item);
+        }
+
+        #endregion Order
+
+        #region Category
+
+        /// <summary>
+        /// Φέρνει όλες τις κατηγορίες προϊόντων
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Category>> GetCategoriesAsync()
+        {
+            return database.Table<Category>().ToListAsync();
+        }
+
+
+        /// <summary>
+        /// Αποθηκεύει μια κατηγορία προϊόντων
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> SaveCategoryAsync(Category item)
+        {
+            if (item.ID != 0)
+            {
+                return database.UpdateAsync(item);
+            }
+            else
+            {
+                return database.InsertAsync(item);
+            }
+        }
+
+        /// <summary>
+        /// Διαγράφει μια κατηγορία προϊόντων
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> DeleteCategoryAsync(Category item)
+        {
+            return database.DeleteAsync(item);
+        }
+
+        #endregion Category
+
+        #region Item
+
+        /// <summary>
+        /// Φέρνει όλα τα προϊόντα
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Item>> GetItemsAsync()
+        {
+            return database.Table<Item>().ToListAsync();
+        }
+
+        /// <summary>
+        /// Αποθηκεύει ένα προϊόν
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> SaveItemAsync(Item item)
+        {
+            if (item.ID != 0)
+            {
+                return database.UpdateAsync(item);
+            }
+            else
+            {
+                return database.InsertAsync(item);
+            }
+        }
+
+        /// <summary>
+        /// Διαγράφει ένα προϊόν
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> DeleteItemAsync(Item item)
+        {
+            return database.DeleteAsync(item);
+        }
+
+        #endregion Item
 
         //public Task<List<TodoItem>> GetItemsAsync()
         //{
