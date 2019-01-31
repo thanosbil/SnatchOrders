@@ -13,21 +13,29 @@ namespace SnatchOrders.ViewModels
     {
         public ObservableCollection<Category> Categories { get; set; }
 
-        public ICommand AddCategory { get; set; }
+        public ICommand AddCategoryCommand { get; set; }
+        public ICommand GoToItemsPageCommand { get; set; }
 
         private INavigation _navigation;
         private List<Category> ListOfCategories;
 
         public CategoriesVM(INavigation navigation)
         {
-            AddCategory = new Command(CreateNewCategory);
+            AddCategoryCommand = new Command(CreateNewCategory);
+            GoToItemsPageCommand = new Command<Category>(GoToItemsPage);
             _navigation = navigation;
             Categories = new ObservableCollection<Category>();
             ListOfCategories = new List<Category>();
         }
 
+        private async void GoToItemsPage(Category category)
+        {
+            await _navigation.PushAsync(new ItemsPage(category));
+        }
+
         public async void GetCategoriesList()
         {
+            Categories.Clear();
             ListOfCategories.Clear();
             ListOfCategories = await App.Database.GetCategoriesAsync();
 

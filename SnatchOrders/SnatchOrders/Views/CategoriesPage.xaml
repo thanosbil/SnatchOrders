@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SnatchOrders.Views.CategoriesPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddCategory}" />
+        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddCategoryCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <ListView
                 ItemsSource="{Binding Categories}"
-                HasUnevenRows="True">
+                HasUnevenRows="True"
+                ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

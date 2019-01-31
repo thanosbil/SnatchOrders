@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SnatchOrders.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace SnatchOrders.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class NewItemPage : ContentPage
+	public partial class ItemsPage : ContentPage
 	{
-		public NewItemPage ()
+		public ItemsPage (Category category)
 		{
 			InitializeComponent ();
+            Title = category.Description;
 		}
 	}
 }

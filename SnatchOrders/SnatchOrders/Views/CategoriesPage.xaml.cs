@@ -29,5 +29,10 @@ namespace SnatchOrders.Views
 
             categoriesVM.GetCategoriesList();
         }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            categoriesVM.GoToItemsPageCommand.Execute(e.Item);
+        }
     }
 }
