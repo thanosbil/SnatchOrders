@@ -15,7 +15,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="15">
-                                <Label  Text="{Binding Description}"/>
+                                <Label  Text="{Binding Description}" FontSize="Medium"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
