@@ -1,16 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
-             x:Class="SnatchOrders.Views.OrdersPage">   
+             x:Class="SnatchOrders.Views.OrdersPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding NewOrderCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
-            <ListView>
-                
+            <ListView
+                ItemsSource="{Binding Orders}"
+                HasUnevenRows="True"
+                ItemTapped="ListView_ItemTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="15">
+                                <Label  Text="{Binding DateSent, StringFormat='\{0:dd/MM/yy - hh\\:mm}'}" FontSize="Medium"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
-            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" Padding="10" BackgroundColor="#80e27e">
-                <Button Text="Νέα παραγγελία" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" CornerRadius="7"
-                        Command="{Binding Path=NewOrder}"/>
-            </StackLayout>            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

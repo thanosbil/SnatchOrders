@@ -22,5 +22,16 @@ namespace SnatchOrders.Views
             BindingContext = ordersVM;
             Title = "Παραγγελίες";
 		}
-	}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ordersVM.GetOrdersList();
+        }
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+
+        }
+    }
 }

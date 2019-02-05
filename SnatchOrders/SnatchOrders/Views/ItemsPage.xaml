@@ -3,31 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SnatchOrders.Views.ItemsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddNewItemCommand}"/>
+        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding GoToNewItemPageCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <ListView
-                ItemTapped="ListView_ItemTapped">
+                ItemsSource="{Binding Items}"
+                HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="15">
+                            <StackLayout Padding="15" >
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                </Grid>
-                                <Label  Text="{Binding Description}" Grid.Row="0" Grid.Column="0"/>
-                                <Button Text="Subtr" Grid.Row="0" Grid.Column="1" />
-                                <Label Text="0"  Grid.Row="0" Grid.Column="2"/>
-                                <Button Text="Add"  Grid.Row="0" Grid.Column="3"/>
+                                    <Label  Text="{Binding Description}" Grid.Row="0" Grid.Column="0" FontSize="Medium" VerticalTextAlignment="Center"/>
+                                    <ImageButton Source="baseline_remove_black_48.png" Aspect="AspectFit" Command="{Binding DecreaseQuantityCommand}" Grid.Row="0" Grid.Column="1"
+                                                 WidthRequest="25"/>
+                                    <Label Text="{Binding Quantity}"  Grid.Row="0" Grid.Column="2" FontSize="Medium" VerticalTextAlignment="Center"/>
+                                    <ImageButton Source="baseline_add_black_48.png" Aspect="AspectFit" Command="{Binding IncreaseQuantityCommand}" Grid.Row="0" Grid.Column="3"
+                                                 WidthRequest="25"/>
+                                </Grid>                                
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

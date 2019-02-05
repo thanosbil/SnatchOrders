@@ -21,6 +21,7 @@ namespace SnatchOrders.Views
 			InitializeComponent ();
             Title = category.Description;
             itemsPageVM = new ItemsPageVM(Navigation);
+            BindingContext = itemsPageVM;
 		}
 
         protected override void OnAppearing()
@@ -29,9 +30,9 @@ namespace SnatchOrders.Views
             itemsPageVM.GetItemsList();
         }
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            itemsPageVM.GoToNewItemPageCommand.Execute(e.Item);
-        }
+        //private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
+        //{
+        //    //itemsPageVM.GoToNewItemPageCommand.Execute(e.Item);
+        //}
     }
 }

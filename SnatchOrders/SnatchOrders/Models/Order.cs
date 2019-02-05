@@ -8,6 +8,7 @@ namespace SnatchOrders.Models
     /// <summary>
     /// The main class with all the fields to populate the order email
     /// </summary>
+    [Table("Orders")]
     public class Order
     {
         [PrimaryKey, AutoIncrement]

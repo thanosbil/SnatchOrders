@@ -17,7 +17,7 @@
                 <Label Grid.Row="0" Margin="5,5,5,0" Text="Ορίστε το όνομα του προϊόντος" TextColor="White" FontAttributes="Bold"/>
                 <Entry Grid.Row="1" Margin="5" BackgroundColor="White" x:Name="ItemDescriptionEntry"/>
             </Grid>
-            <Button Margin="0,15,0,0" CornerRadius="7" HorizontalOptions="FillAndExpand" Text="Αποθήκευση κατηγορίας" Command=""
+            <Button Margin="0,15,0,0" CornerRadius="7" HorizontalOptions="FillAndExpand" Text="Αποθήκευση προϊόντος" Command="{Binding AddNewItemCommand}"
                     CommandParameter="{Binding Source={x:Reference ItemDescriptionEntry}, Path=Text}"/>
         </StackLayout>
     </ContentPage.Content>
