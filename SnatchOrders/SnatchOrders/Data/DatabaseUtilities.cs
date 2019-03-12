@@ -109,9 +109,9 @@ namespace SnatchOrders.Data
         /// Φέρνει όλα τα προϊόντα
         /// </summary>
         /// <returns></returns>
-        public Task<List<Item>> GetItemsAsync()
+        public Task<List<Item>> GetItemsAsync(int ItemCategoryID)
         {
-            return database.Table<Item>().ToListAsync();
+            return database.Table<Item>().Where(i => i.CategoryId == ItemCategoryID).ToListAsync();
         }
 
         /// <summary>

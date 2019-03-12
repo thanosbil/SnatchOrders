@@ -1,9 +1,11 @@
 ﻿using SQLite;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SnatchOrders.Models
 {
-    public class Item
+    public class Item : INotifyPropertyChanged
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
@@ -21,11 +23,39 @@ namespace SnatchOrders.Models
         /// <summary>
         /// Περιγραφή έίδους
         /// </summary>
-        public string Description { get; set; }
+        public string Description {
+            get { return _Description; }
+            set {
+                if(_Description != value)
+                {
+                    _Description = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private string _Description { get; set; }
 
         /// <summary>
         /// Ποσότητα παραγγελίας
         /// </summary>
-        public int Count { get; set; }
+        public int Count {
+            get { return _Count; }
+            set {
+                if(_Count != value)
+                {
+                    _Count = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private int _Count { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

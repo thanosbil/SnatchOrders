@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -15,58 +16,51 @@ namespace SnatchOrders.ViewModels
         public ICommand IncreaseQuantityCommand { get; set; }
         public ICommand DecreaseQuantityCommand { get; set; }
 
-        private string quantity { get; set; }
-        public string Quantity {
-            get { return quantity; }
+
+        public Category ItemCategory { get; set; }
+        public Item ItemSelected {
+            get { return _ItemSelected; }
             set {
-                if (quantity != value){
-                    quantity = value;
-                    OnPropertyChanged("Quantity");
-                }
+                _ItemSelected = value;
+                OnPropertyChanged("ItemSelected");
             }
         }
-
-        private int Counter { get; set; }
-
-        public Item SelectedItem { get; set; }
+        private Item _ItemSelected { get; set; }
         public ObservableCollection<Item> Items { get; set; }
 
         private List<Item> dbItems { get; set; }
         private INavigation _navigation { get; set; }
 
-        public ItemsPageVM(INavigation navigation)
+        public ItemsPageVM(INavigation navigation, Category category)
         {
             _navigation = navigation;
-            SelectedItem = new Item(); 
+            ItemCategory = category;
+            _ItemSelected = new Item();
             dbItems = new List<Item>();
             Items = new ObservableCollection<Item>();
             GoToNewItemPageCommand = new Command(GoToNewItemPage);
-            DecreaseQuantityCommand = new Command(DecreaseQuantity);
-            IncreaseQuantityCommand = new Command(IncreaseQuantity);
-            Counter = 0;
-            Quantity = Counter.ToString();
-
+            DecreaseQuantityCommand = new Command<Item>(DecreaseQuantity);
+            IncreaseQuantityCommand = new Command<Item>(IncreaseQuantity);       
         }
 
-        private void IncreaseQuantity()
+        private void IncreaseQuantity(Item item)
         {
-            
+             item.Count++;
         }
 
-        private void DecreaseQuantity()
+        private void DecreaseQuantity(Item item)
         {
-            if(Counter > 0)
+            if(item.Count > 0)
             {
-                Counter--;
-                Quantity = Counter.ToString();
+                item.Count--;
             }
         }
 
-        public async void GetItemsList()
+        public async Task GetItemsList()
         {
             Items.Clear();
             dbItems.Clear();
-            dbItems = await App.Database.GetItemsAsync();
+            dbItems = await App.Database.GetItemsAsync(ItemCategory.ID);
 
             if (dbItems.Count > 0)
             {
@@ -79,7 +73,7 @@ namespace SnatchOrders.ViewModels
 
         private async void GoToNewItemPage()
         {
-            await _navigation.PushAsync(new NewItemPage());
+            await _navigation.PushAsync(new NewItemPage(ItemCategory));
         }
     }
 }
