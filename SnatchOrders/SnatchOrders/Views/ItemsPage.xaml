@@ -2,14 +2,11 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SnatchOrders.Views.ItemsPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding GoToNewItemPageCommand}"/>
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView x:Name="CustomList">
-            <StackLayout x:Name="FirstStack" Padding="15">
-
-            </StackLayout>
-        </ScrollView>
+        <StackLayout>
+            <Label Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

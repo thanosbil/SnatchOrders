@@ -11,6 +11,7 @@ namespace SnatchOrders.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        public List<Category> MyProperty { get; set; }
 
         bool isBusy = false;
         public bool IsBusy

@@ -92,12 +92,13 @@ namespace SnatchOrders.Data
         }
 
         /// <summary>
-        /// Διαγράφει μια κατηγορία προϊόντων
+        /// Διαγράφει μια κατηγορία προϊόντων και τα προϊόντα που ανήκουν σε αυτή
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         public Task<int> DeleteCategoryAsync(Category item)
         {
+            int x = database.Table<Item>().DeleteAsync(i => i.CategoryId == item.ID).Result;
             return database.DeleteAsync(item);
         }
 

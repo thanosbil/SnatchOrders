@@ -10,6 +10,23 @@
                 <Setter Property="BarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
+            <!--Labels-->
+            <Style x:Key="LabelsDefault" TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <!--StackLayouts-->
+            <Style x:Key="StackPadding" TargetType="StackLayout">
+                <Setter Property="Padding" Value="8" />
+            </Style>
+            <!--Images-->
+            <Style x:Key="ImageSmall" TargetType="Image">
+                <Setter Property="WidthRequest" Value="25" />
+                <Setter Property="HeightRequest" Value="25" />
+            </Style>
+            <Style x:Key="ImageMedium" TargetType="Image">
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="HeightRequest" Value="40" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

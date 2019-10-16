@@ -8,19 +8,38 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView
+                x:Name="CategoriesListView"
                 ItemsSource="{Binding Categories}"
                 HasUnevenRows="True"
                 ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell x:Name="viewCell">
                             <StackLayout Padding="15">
-                                <Label  Text="{Binding Description}" FontSize="Medium"/>
+                                <Label Style="{StaticResource LabelsDefault}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Description}" FontSize="Medium" />
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding ItemCount, StringFormat='({0})'}" FontSize="Medium"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
                             </StackLayout>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference CategoriesListView}, Path=BindingContext}"
+                                          CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}" Command="{Binding DeleteCategoryCommand}"/>
+                            </ViewCell.ContextActions>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <!--<StackLayout BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
+                <Image Source="baseline_add_white_48.png" Style="{StaticResource ImageMedium}"/>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddCategoryCommand}" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

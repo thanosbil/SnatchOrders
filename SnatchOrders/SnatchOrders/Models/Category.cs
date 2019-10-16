@@ -14,5 +14,10 @@ namespace SnatchOrders.Models
         /// Περιγραφή κατηγορίας
         /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Αριθμός ειδών στην κατηγορία
+        /// </summary>
+        [Ignore]
+        public int ItemCount { get; set; }
     }
 }

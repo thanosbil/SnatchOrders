@@ -8,19 +8,32 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
             <ListView
+                x:Name="OrdersListView"
                 ItemsSource="{Binding Orders}"
                 HasUnevenRows="True"
                 ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell x:Name="viewCell">
                             <StackLayout Padding="15">
-                                <Label  Text="{Binding DateSent, StringFormat='\{0:dd/MM/yy - hh\\:mm}'}" FontSize="Medium"/>
+                                <Label Style="{StaticResource LabelsDefault}" 
+                                       Text="{Binding DateSent, StringFormat='\{0:dd/MM/yy - hh\\:mm}'}" 
+                                       FontSize="Medium"/>
                             </StackLayout>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference OrdersListView}, Path=BindingContext}"
+                                          CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}" Command="{Binding DeleteOrderCommand}"/>
+                            </ViewCell.ContextActions>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <!--<StackLayout BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
+                <Image Source="baseline_add_white_48.png" Style="{StaticResource ImageMedium}"/>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NewOrderCommand}" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

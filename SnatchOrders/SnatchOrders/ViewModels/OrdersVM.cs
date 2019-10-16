@@ -15,14 +15,27 @@ namespace SnatchOrders.ViewModels
         private List<Order> dbOrders { get; set; }
 
         public ICommand NewOrderCommand { get; set; }
+        public ICommand DeleteOrderCommand { get; set; }
         private INavigation _navigation;
 
         public OrdersVM(INavigation navigation)
         {
             NewOrderCommand = new Command(MakeNewOrder);
+            DeleteOrderCommand = new Command<Order>(DeleteOrder);
             _navigation = navigation;
             Orders = new ObservableCollection<Order>();
             dbOrders = new List<Order>();
+        }
+
+        private async void DeleteOrder(Order obj)
+        {
+            bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", "Πρόκειται να διαγραφεί η παραγγελία. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
+
+            if (result)
+            {
+                await App.Database.DeleteOrderAsync(obj);
+                GetOrdersList();
+            }
         }
 
         public async void GetOrdersList()
