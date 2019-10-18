@@ -33,8 +33,13 @@ namespace SnatchOrders.ViewModels
 
             if (result)
             {
-                await App.Database.DeleteOrderAsync(obj);
-                GetOrdersList();
+                try {
+                    await App.Database.DeleteOrderAsync(obj);
+                    Orders.Remove(obj);
+                }catch(Exception ex) {
+                    await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά τη διαγραφή της παραγγελίας"
+                   + Environment.NewLine + ex, "OK");
+                }
             }
         }
 
@@ -53,9 +58,18 @@ namespace SnatchOrders.ViewModels
             }
         }
 
-        private async void MakeNewOrder()
-        {
-           await _navigation.PushAsync(new CategoriesPage());
+        private async void MakeNewOrder(){
+            Order current = new Order();
+            current.DateCreated = DateTime.Now;
+            current.OrderStatus = StatusOfOrder.New;
+
+            try {
+                await App.Database.SaveOrderAsync(current);
+            }catch(Exception ex) {
+                await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση της παραγγελίας"
+                    + Environment.NewLine + ex,"OK");
+            }
+            await _navigation.PushAsync(new CategoriesPage(current.ID));
         }
     }
 }

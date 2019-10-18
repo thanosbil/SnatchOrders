@@ -29,7 +29,7 @@ namespace SnatchOrders.Models
                 if(_Description != value)
                 {
                     _Description = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged("Description");
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace SnatchOrders.Models
                 if(_Count != value)
                 {
                     _Count = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged("Count");
                 }
             }
         }

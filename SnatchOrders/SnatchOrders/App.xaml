@@ -13,6 +13,7 @@
             <!--Labels-->
             <Style x:Key="LabelsDefault" TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="Medium" />
             </Style>
             <!--StackLayouts-->
             <Style x:Key="StackPadding" TargetType="StackLayout">
@@ -26,6 +27,17 @@
             <Style x:Key="ImageMedium" TargetType="Image">
                 <Setter Property="WidthRequest" Value="40" />
                 <Setter Property="HeightRequest" Value="40" />
+            </Style>
+            <!--BoxViews-->
+            <Style x:Key="BoxViewSquare" TargetType="BoxView">
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="HeightRequest" Value="40"/>                
+            </Style>
+            <!--ImageButtons-->
+            <Style x:Key="ImageButtonSmall" TargetType="ImageButton">
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="CornerRadius" Value="4" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

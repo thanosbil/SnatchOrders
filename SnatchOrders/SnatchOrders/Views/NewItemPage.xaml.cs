@@ -16,10 +16,10 @@ namespace SnatchOrders.Views
 	{
         NewItemPageVM newItemPageVM;
 
-		public NewItemPage (Category category)
+		public NewItemPage (int categoryId)
 		{
 			InitializeComponent ();
-            newItemPageVM = new NewItemPageVM(Navigation, category);
+            newItemPageVM = new NewItemPageVM(Navigation, categoryId);
             BindingContext = newItemPageVM;
 		}
 	}

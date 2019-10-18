@@ -17,8 +17,7 @@
                         <ViewCell x:Name="viewCell">
                             <StackLayout Padding="15">
                                 <Label Style="{StaticResource LabelsDefault}" 
-                                       Text="{Binding DateSent, StringFormat='\{0:dd/MM/yy - hh\\:mm}'}" 
-                                       FontSize="Medium"/>
+                                       Text="{Binding DateCreated, StringFormat='\{0:dd/MM/yy - HH\\:mm}'}" />
                             </StackLayout>
                             <ViewCell.ContextActions>
                                 <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference OrdersListView}, Path=BindingContext}"

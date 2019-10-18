@@ -12,21 +12,25 @@ namespace SnatchOrders.ViewModels
         public ICommand AddNewItemCommand { get; set; }
 
         private INavigation _navigation { get; set; }
-        private Category ItemCategory { get; set; }
+        private int CategoryId { get; set; }
 
-        public NewItemPageVM(INavigation navigation, Category category)
-        {
+        public NewItemPageVM(INavigation navigation, int categoryId){
             _navigation = navigation;
-            ItemCategory = category;
+            CategoryId = categoryId;
             AddNewItemCommand = new Command<string>(AddNewItem);
         }
 
-        private async void AddNewItem(string description)
-        {
+        private async void AddNewItem(string description){
             Item newItem = new Item();
             newItem.Description = description;
-            newItem.CategoryId = ItemCategory.ID;
-            await App.Database.SaveItemAsync(newItem);
+            newItem.CategoryId = CategoryId;
+
+            try {
+                await App.Database.SaveItemAsync(newItem);
+            }catch(Exception ex) {
+                await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση του είδους" 
+                    + Environment.NewLine + ex, "OK");
+            }
             await _navigation.PopAsync();
         }
     }

@@ -15,23 +15,20 @@ namespace SnatchOrders.Views
 	{
         CategoriesVM categoriesVM;
 
-		public CategoriesPage ()
-		{
+		public CategoriesPage (int orderId) {
 			InitializeComponent ();
             Title = "Κατηγορίες";
-            categoriesVM = new CategoriesVM(Navigation);
+            categoriesVM = new CategoriesVM(Navigation, orderId);
             BindingContext = categoriesVM;
 		}
 
-        protected override void OnAppearing()
-        {
+        protected override void OnAppearing() {
             base.OnAppearing();
 
             categoriesVM.GetCategoriesList();
         }
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e) {
             categoriesVM.GoToItemsPageCommand.Execute(e.Item);
         }
     }

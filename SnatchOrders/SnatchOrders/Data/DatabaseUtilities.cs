@@ -29,7 +29,7 @@ namespace SnatchOrders.Data
         /// <returns></returns>
         public Task<List<Order>> GetOrdersAsync()
         {
-            return database.Table<Order>().OrderByDescending(i => i.DateSent).ToListAsync();
+            return database.Table<Order>().OrderByDescending(i => i.DateCreated).ToListAsync();
         }
 
 
