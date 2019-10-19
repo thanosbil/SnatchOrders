@@ -18,6 +18,7 @@ namespace SnatchOrders.Data
             database.CreateTableAsync<Order>().Wait();
             database.CreateTableAsync<Category>().Wait();
             database.CreateTableAsync<Item>().Wait();
+            database.CreateTableAsync<OrderItem>().Wait();
         }
 
         #region Order
@@ -70,7 +71,7 @@ namespace SnatchOrders.Data
         /// <returns></returns>
         public Task<List<Category>> GetCategoriesAsync()
         {
-            return database.Table<Category>().ToListAsync();
+            return database.Table<Category>().OrderBy(i => i.Description).ToListAsync();
         }
 
 
@@ -112,7 +113,7 @@ namespace SnatchOrders.Data
         /// <returns></returns>
         public Task<List<Item>> GetItemsAsync(int ItemCategoryID)
         {
-            return database.Table<Item>().Where(i => i.CategoryId == ItemCategoryID).ToListAsync();
+            return database.Table<Item>().Where(i => i.CategoryId == ItemCategoryID).OrderBy(i => i.Description).ToListAsync();
         }
 
         /// <summary>
@@ -144,36 +145,29 @@ namespace SnatchOrders.Data
 
         #endregion Item
 
-        //public Task<List<TodoItem>> GetItemsAsync()
-        //{
-        //    return database.Table<TodoItem>().ToListAsync();
-        //}
+        #region OrderItem
 
-        //public Task<List<TodoItem>> GetItemsNotDoneAsync()
-        //{
-        //    return database.QueryAsync<TodoItem>("SELECT * FROM [TodoItem] WHERE [Done] = 0");
-        //}
+        public Task<int> DeleteOrderItemAsync(OrderItem item) {
+            return database.DeleteAsync(item);
+        }
 
-        //public Task<TodoItem> GetItemAsync(int id)
-        //{
-        //    return database.Table<TodoItem>().Where(i => i.ID == id).FirstOrDefaultAsync();
-        //}
+        public Task<List<OrderItem>> GetOrderItemsAsync(int OrderId) {
+            return database.Table<OrderItem>().Where(i => i.OrderId == OrderId).OrderBy(i => i.Description).ToListAsync();
+        }
 
-        //public Task<int> SaveItemAsync(TodoItem item)
-        //{
-        //    if (item.ID != 0)
-        //    {
-        //        return database.UpdateAsync(item);
-        //    }
-        //    else
-        //    {
-        //        return database.InsertAsync(item);
-        //    }
-        //}
+        /// <summary>
+        /// Αποθηκεύει ένα είδος της παραγγελίας
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> SaveOrderItemAsync(OrderItem item) {
+            if (item.ID != 0) {
+                return database.UpdateAsync(item);
+            } else {
+                return database.InsertAsync(item);
+            }
+        }
 
-        //public Task<int> DeleteItemAsync(TodoItem item)
-        //{
-        //    return database.DeleteAsync(item);
-        //}
+        #endregion OrderItem        
     }
 }

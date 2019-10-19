@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SnatchOrders.Views.OrderPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView x:Name="OrderItemsListView"
+                      ItemsSource="{Binding OrderItemsCollection}"
+                      HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="viewCell">
+                            <StackLayout Style="{StaticResource StackPadding}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}" Style="{StaticResource LabelsDefault}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" Style="{StaticResource LabelsDefault}"/>
+                                </Grid>
+                            </StackLayout>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference OrderItemsListView}, Path=BindingContext}"
+                                          CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}" Command="{Binding DeleteOrderItemCommand}"/>
+                            </ViewCell.ContextActions>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>                
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

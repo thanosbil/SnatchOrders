@@ -1,4 +1,5 @@
-﻿using SnatchOrders.ViewModels;
+﻿using SnatchOrders.Models;
+using SnatchOrders.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,23 +16,20 @@ namespace SnatchOrders.Views
 	{
         OrdersVM ordersVM;
 
-		public OrdersPage ()
-		{
+		public OrdersPage (){
 			InitializeComponent ();
             ordersVM = new OrdersVM(Navigation);
             BindingContext = ordersVM;
             Title = "Παραγγελίες";
 		}
 
-        protected override void OnAppearing()
-        {
+        protected override void OnAppearing(){
             base.OnAppearing();
             ordersVM.GetOrdersList();
         }
 
-        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e){
+            ordersVM.ItemTappedCommand.Execute(e.Item as Order);
         }
     }
 }

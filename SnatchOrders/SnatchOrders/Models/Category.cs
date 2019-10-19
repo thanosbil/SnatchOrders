@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SnatchOrders.Models
 {
+    [Table("Categories")]
     public class Category
     {
         [PrimaryKey, AutoIncrement]

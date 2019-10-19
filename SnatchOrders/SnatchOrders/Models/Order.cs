@@ -35,7 +35,7 @@ namespace SnatchOrders.Models
         /// Όλα τα προϊόντα που περιέχει η παραγγελία
         /// </summary>
         [Ignore]
-        public List<Item> AllItems { get; set; }
+        public List<OrderItem> AllItems { get; set; }
 
         /// <summary>
         /// Ημερομηνία αποστολής της παραγγελίας
@@ -46,5 +46,9 @@ namespace SnatchOrders.Models
         /// Σε ποιον στάλθηκε η παραγγελία
         /// </summary>
         public string OrderRecipient { get; set; }
+
+        public Order() {
+            AllItems = new List<OrderItem>();
+        }
     }
 }

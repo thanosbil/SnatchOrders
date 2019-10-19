@@ -13,18 +13,22 @@ namespace SnatchOrders.ViewModels
 
         public ObservableCollection<Order> Orders { get; set; }
         private List<Order> dbOrders { get; set; }
-
+        public ICommand ItemTappedCommand { get; set; }
         public ICommand NewOrderCommand { get; set; }
         public ICommand DeleteOrderCommand { get; set; }
         private INavigation _navigation;
 
-        public OrdersVM(INavigation navigation)
-        {
+        public OrdersVM(INavigation navigation){
+            ItemTappedCommand = new Command<Order>(ItemTapped);
             NewOrderCommand = new Command(MakeNewOrder);
             DeleteOrderCommand = new Command<Order>(DeleteOrder);
             _navigation = navigation;
             Orders = new ObservableCollection<Order>();
             dbOrders = new List<Order>();
+        }
+
+        private async void ItemTapped(Order obj) {
+            await _navigation.PushAsync(new OrderPage(obj));
         }
 
         private async void DeleteOrder(Order obj)
@@ -69,7 +73,7 @@ namespace SnatchOrders.ViewModels
                 await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση της παραγγελίας"
                     + Environment.NewLine + ex,"OK");
             }
-            await _navigation.PushAsync(new CategoriesPage(current.ID));
+            await _navigation.PushAsync(new CategoriesPage(current));
         }
     }
 }

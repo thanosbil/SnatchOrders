@@ -1,25 +1,33 @@
 ﻿using SQLite;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace SnatchOrders.Models
 {
-    [Table("Items")]
-    public class Item : INotifyPropertyChanged
+    [Table("OrderItems")]
+    public class OrderItem : INotifyPropertyChanged
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-                
+        public int ItemId { get; set; }
         /// <summary>
-        /// Id κατηγορίας προϊόντος
+        /// Id παραγγελίας
         /// </summary>
-        public int CategoryId { get; set; }
-
-        /// <summary>
-        /// Περιγραφή έίδους
-        /// </summary>
+        public int OrderId { get; set; }
         public string Description { get; set; }
+        private int _Count { get; set; }
+        public int Count {
+            get { return _Count; }
+            set {
+                if(_Count != value) {
+                    _Count = value;
+                    OnPropertyChanged("Count");
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string propertyName = null) {

@@ -3,6 +3,7 @@ using SnatchOrders.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,33 +19,58 @@ namespace SnatchOrders.ViewModels
         public ICommand AddItemsToOrderCommand { get; set; }
 
         private INavigation _Navigation { get; set; }
-        private int CategoryId { get; set; }
+        private int CategoryId { get; set; }        
+        public Order CurrentOrder { get; set; }
         public List<Item> DbItems { get; set; }
-        public ObservableCollection<Item> ItemsCollection { get; set; }
+        public ObservableCollection<OrderItem> ItemsCollection { get; set; }
 
-        public ItemsPageVM(INavigation navigation, int orderId, int categoryId) {
+        public ItemsPageVM(INavigation navigation, Order currentOrder, int categoryId) {
             _Navigation = navigation;
 
-            ItemsCollection = new ObservableCollection<Item>();
+            ItemsCollection = new ObservableCollection<OrderItem>();
 
             CategoryId = categoryId;
+            CurrentOrder = currentOrder;
             AddItemCommand = new Command(AddItem);
-            DecreaseCountCommand = new Command<Item>(DecreaseCount);
-            IncreaseCountCommand = new Command<Item>(IncreaseCount);
-            DeleteItemCommand = new Command<Item>(DeleteItem);
+            DecreaseCountCommand = new Command<OrderItem>(DecreaseCount);
+            IncreaseCountCommand = new Command<OrderItem>(IncreaseCount);
+            DeleteItemCommand = new Command<OrderItem>(DeleteItem);
             AddItemsToOrderCommand = new Command(AddItemsToOrder);
         }
 
-        private void AddItemsToOrder(object obj) {
-            
+        private async void AddItemsToOrder() {
+            bool result = await App.Current.MainPage.DisplayAlert("Επιβεβαίωση", "Εισαγωγή των ειδών στην παραγγελία;", "OK", "ΑΚΥΡΟ");
+
+            if (result) {
+                try {
+                    foreach (OrderItem item in ItemsCollection) {
+                        if (item.Count > 0) {
+                            item.OrderId = CurrentOrder.ID;
+                            CurrentOrder.AllItems.Add(item);
+                            await App.Database.SaveOrderItemAsync(item);
+                        }
+                    }
+
+                    if(CurrentOrder.AllItems.Count > 0) {
+                        CurrentOrder.OrderStatus = StatusOfOrder.InProgress;
+                        await App.Database.SaveOrderAsync(CurrentOrder);
+                    }
+                    
+                } catch (Exception ex) {
+                    await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση των ειδών της παραγγελίας"
+                        + Environment.NewLine + ex, "OK");
+                }
+                await _Navigation.PopAsync();
+            }
         }
 
-        private async void DeleteItem(Item obj) {
+        private async void DeleteItem(OrderItem obj) {
             bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", $"Πρόκειται να διαγραφεί το είδος {obj.Description}. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
 
             try {
                 if (result) {
-                    await App.Database.DeleteItemAsync(obj);
+                    Item oneToDelete = DbItems.FirstOrDefault(i => i.ID == obj.ItemId);
+                    await App.Database.DeleteItemAsync(oneToDelete);
                     ItemsCollection.Remove(obj);
                 }
             }catch(Exception ex) {
@@ -53,11 +79,11 @@ namespace SnatchOrders.ViewModels
             }
         }
 
-        private void IncreaseCount(Item obj) {
+        private void IncreaseCount(OrderItem obj) {
             obj.Count += 1;
         }
 
-        private void DecreaseCount(Item obj) {
+        private void DecreaseCount(OrderItem obj) {
             if (obj.Count > 0)
                 obj.Count -= 1; 
         }
@@ -75,11 +101,23 @@ namespace SnatchOrders.ViewModels
 
         private void ConverToObservable(List<Item> dbItems) {
             ItemsCollection.Clear();
+            OrderItem tempItem;
+
             if (dbItems != null) {
                 foreach(Item categoryItem in dbItems) {
-                    ItemsCollection.Add(categoryItem);
+                    tempItem = GetOrderItem(categoryItem);
+                    ItemsCollection.Add(tempItem);
                 }
             }
+        }
+
+        private OrderItem GetOrderItem(Item categoryItem) {
+            OrderItem temp = new OrderItem();
+
+            temp.ItemId = categoryItem.ID;
+            temp.Description = categoryItem.Description;
+
+            return temp;
         }
 
         private async void AddItem() {

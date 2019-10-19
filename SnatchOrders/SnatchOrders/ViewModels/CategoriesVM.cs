@@ -11,7 +11,7 @@ namespace SnatchOrders.ViewModels
 {
     public class CategoriesVM
     {
-        public int OrderId { get; set; }
+        public Order CurrentOrder { get; set; }
         public ObservableCollection<Category> Categories { get; set; }
                 
         public ICommand AddCategoryCommand { get; set; }
@@ -21,9 +21,9 @@ namespace SnatchOrders.ViewModels
         private INavigation _navigation;
         private List<Category> ListOfCategories;
 
-        public CategoriesVM(INavigation navigation, int orderId) {
+        public CategoriesVM(INavigation navigation, Order currentOrder) {
             _navigation = navigation;
-            OrderId = orderId;
+            CurrentOrder = currentOrder;
             
             AddCategoryCommand = new Command(CreateNewCategory);
             GoToItemsPageCommand = new Command<Category>(GoToItemsPage);
@@ -71,7 +71,7 @@ namespace SnatchOrders.ViewModels
         }
 
         private async void GoToItemsPage(Category category){
-            await _navigation.PushAsync(new ItemsPage(OrderId, category));
+            await _navigation.PushAsync(new ItemsPage(CurrentOrder, category));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using SnatchOrders.ViewModels;
+﻿using SnatchOrders.Models;
+using SnatchOrders.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ namespace SnatchOrders.Views
 	{
         CategoriesVM categoriesVM;
 
-		public CategoriesPage (int orderId) {
+		public CategoriesPage (Order currentOrder) {
 			InitializeComponent ();
             Title = "Κατηγορίες";
-            categoriesVM = new CategoriesVM(Navigation, orderId);
+            categoriesVM = new CategoriesVM(Navigation, currentOrder);
             BindingContext = categoriesVM;
 		}
 
