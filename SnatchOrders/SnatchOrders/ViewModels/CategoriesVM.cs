@@ -33,16 +33,16 @@ namespace SnatchOrders.ViewModels
         }
         
         private async void DeleteCategory (Category obj) {
-            bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", "Πρόκειται να διαγραφεί η κατηγορία. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
+            bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", $"Πρόκειται να διαγραφεί η κατηγορία {obj.Description}. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
 
             if (result) {
                 try { 
                     await App.Database.DeleteCategoryAsync(obj);
+                    Categories.Remove(obj);
                 }catch(Exception ex) {
                     await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά τη διαγραφή της κατηγορίας"
                         + Environment.NewLine + ex, "OK");
-                }
-                GetCategoriesList();
+                }                
             }
         }
 

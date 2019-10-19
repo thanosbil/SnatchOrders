@@ -15,9 +15,16 @@
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="Medium" />
             </Style>
+            <Style x:Key="LabelsRemark" TargetType="Label">                
+                <Setter Property="FontSize" Value="Small" />
+            </Style>
+            <Style x:Key="LabelsToolbar" TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="Medium"/>
+            </Style>
             <!--StackLayouts-->
             <Style x:Key="StackPadding" TargetType="StackLayout">
-                <Setter Property="Padding" Value="8" />
+                <Setter Property="Padding" Value="15" />
             </Style>
             <!--Images-->
             <Style x:Key="ImageSmall" TargetType="Image">

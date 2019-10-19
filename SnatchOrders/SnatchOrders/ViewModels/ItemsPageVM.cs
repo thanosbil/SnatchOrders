@@ -14,6 +14,8 @@ namespace SnatchOrders.ViewModels
         public ICommand AddItemCommand { get; set; }
         public ICommand DecreaseCountCommand { get; set; }
         public ICommand IncreaseCountCommand { get; set; }
+        public ICommand DeleteItemCommand { get; set; }
+        public ICommand AddItemsToOrderCommand { get; set; }
 
         private INavigation _Navigation { get; set; }
         private int CategoryId { get; set; }
@@ -29,6 +31,26 @@ namespace SnatchOrders.ViewModels
             AddItemCommand = new Command(AddItem);
             DecreaseCountCommand = new Command<Item>(DecreaseCount);
             IncreaseCountCommand = new Command<Item>(IncreaseCount);
+            DeleteItemCommand = new Command<Item>(DeleteItem);
+            AddItemsToOrderCommand = new Command(AddItemsToOrder);
+        }
+
+        private void AddItemsToOrder(object obj) {
+            
+        }
+
+        private async void DeleteItem(Item obj) {
+            bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", $"Πρόκειται να διαγραφεί το είδος {obj.Description}. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
+
+            try {
+                if (result) {
+                    await App.Database.DeleteItemAsync(obj);
+                    ItemsCollection.Remove(obj);
+                }
+            }catch(Exception ex) {
+                await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την διαγραφή του είδους"
+                    + Environment.NewLine + ex, "OK");
+            }
         }
 
         private void IncreaseCount(Item obj) {
@@ -36,7 +58,8 @@ namespace SnatchOrders.ViewModels
         }
 
         private void DecreaseCount(Item obj) {
-            obj.Count -= 1; 
+            if (obj.Count > 0)
+                obj.Count -= 1; 
         }
 
         public async Task GetCategoryItems(int categoryId) {            

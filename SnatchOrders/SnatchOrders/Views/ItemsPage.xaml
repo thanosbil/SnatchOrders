@@ -6,10 +6,58 @@
         <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddItemCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout x:Name="OuterStack">
-                
+        <StackLayout x:Name="OuterStack">
+            <ListView x:Name="ItemsListView"
+                          ItemsSource="{Binding ItemsCollection}"
+                          HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell x:Name="viewCell">
+                            <StackLayout Style="{StaticResource StackPadding}">
+                                <Grid Padding="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}"  VerticalOptions="Center" Style="{StaticResource LabelsDefault}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" TextColor="#2962ff" VerticalOptions="Center" Style="{StaticResource LabelsDefault}"/>
+                                    <Grid Grid.Row="0" Grid.Column="2" VerticalOptions="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <ImageButton Grid.Row="0" Grid.Column="0" Source="baseline_remove_black_48"
+                                                     BorderWidth="1" BorderColor="Gray" BackgroundColor="LightGray" Padding="5"
+                                                     BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}" 
+                                                     Command="{Binding DecreaseCountCommand}" CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}"/>
+                                        <ImageButton Grid.Row="0" Grid.Column="1" Source="baseline_add_black_48"
+                                                     BorderWidth="1" BorderColor="Gray" BackgroundColor="LightGray" Padding="5"
+                                                     BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}"
+                                                     Command="{Binding IncreaseCountCommand}" CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}"/>
+                                    </Grid>
+                                </Grid>
+                            </StackLayout>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}"
+                                          CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}" Command="{Binding DeleteItemCommand}"/>
+                            </ViewCell.ContextActions>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout VerticalOptions="EndAndExpand" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
+                <Label Text="Προσθήκη στην παραγγελία"  Style="{StaticResource LabelsToolbar}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddItemsToOrderCommand}" />
+                </StackLayout.GestureRecognizers>
             </StackLayout>
-        </ScrollView>
+        </StackLayout>        
     </ContentPage.Content>
 </ContentPage>

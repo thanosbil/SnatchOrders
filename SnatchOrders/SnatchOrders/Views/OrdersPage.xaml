@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"      
+             xmlns:enum="clr-namespace:SnatchOrders.Models"
              x:Class="SnatchOrders.Views.OrdersPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding NewOrderCommand}" />
@@ -18,6 +19,19 @@
                             <StackLayout Padding="15">
                                 <Label Style="{StaticResource LabelsDefault}" 
                                        Text="{Binding DateCreated, StringFormat='\{0:dd/MM/yy - HH\\:mm}'}" />
+                                <Label Style="{StaticResource LabelsRemark}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.New}">
+                                            <Setter Property="Text" Value="Νέα παραγγελία" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.InProgress}">
+                                            <Setter Property="Text" Value="Σε εξέλιξη" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.Finished}">
+                                            <Setter Property="Text" Value="Εστάλη" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
                             </StackLayout>
                             <ViewCell.ContextActions>
                                 <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference OrdersListView}, Path=BindingContext}"
