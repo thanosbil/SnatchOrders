@@ -1,5 +1,7 @@
-﻿using SnatchOrders.Models;
+﻿using Rg.Plugins.Popup.Extensions;
+using SnatchOrders.Models;
 using SnatchOrders.Views;
+using SnatchOrders.Views.PopupViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,6 +48,14 @@ namespace SnatchOrders.ViewModels
             IncreaseCountCommand = new Command<OrderItem>(IncreaseCount);
             DeleteItemCommand = new Command<OrderItem>(DeleteItem);
             AddItemsToOrderCommand = new Command(AddItemsToOrder);
+
+            MessagingCenter.Subscribe<NewItemPopupPage>(this, "Added", (sender) => {
+                RefreshItems();
+            });
+        }
+
+        private async void RefreshItems() {
+            await GetCategoryItems(CategoryId);
         }
 
         private async void AddItemsToOrder() {
@@ -137,7 +147,8 @@ namespace SnatchOrders.ViewModels
         }
 
         private async void AddItem() {
-            await _Navigation.PushAsync(new NewItemPage(CategoryId));
+            //            await _Navigation.PushAsync(new NewItemPage(CategoryId));
+            await _Navigation.PushPopupAsync(new NewItemPopupPage(CategoryId));
         }
     }
 }

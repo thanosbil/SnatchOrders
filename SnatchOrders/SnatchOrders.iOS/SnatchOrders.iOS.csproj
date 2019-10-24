@@ -132,6 +132,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Rg.Plugins.Popup">
+      <Version>1.2.0.223</Version>
+    </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
       <Version>1.6.292</Version>
     </PackageReference>

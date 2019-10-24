@@ -1,5 +1,7 @@
-﻿using SnatchOrders.Models;
+﻿using Rg.Plugins.Popup.Extensions;
+using SnatchOrders.Models;
 using SnatchOrders.Views;
+using SnatchOrders.Views.PopupViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +24,14 @@ namespace SnatchOrders.ViewModels
             }
         }
         public Order CurrentOrder { get; set; }
-        public ObservableCollection<Category> Categories { get; set; }
+        private ObservableCollection<Category> _categoriesCollection { get; set; }
+        public ObservableCollection<Category> CategoriesCollection {
+            get { return _categoriesCollection; }
+            set {
+                _categoriesCollection = value;
+                OnPropertyChanged("CategoriesCollection");
+            }
+        }
                 
         public ICommand AddCategoryCommand { get; set; }
         public ICommand GoToItemsPageCommand { get; set; }
@@ -38,8 +47,16 @@ namespace SnatchOrders.ViewModels
             AddCategoryCommand = new Command(CreateNewCategory);
             GoToItemsPageCommand = new Command<Category>(GoToItemsPage);
             DeleteCategoryCommand = new Command<Category>(DeleteCategory);
-            Categories = new ObservableCollection<Category>();
-            ListOfCategories = new List<Category>();         
+            CategoriesCollection = new ObservableCollection<Category>();
+            ListOfCategories = new List<Category>();
+
+            MessagingCenter.Subscribe<NewCategoryPopupPage>(this, "Added", (sender) => {
+                RefreshCategories();
+            });
+        }
+
+        private void RefreshCategories() {
+            GetCategoriesList();
         }
         
         private async void DeleteCategory (Category obj) {
@@ -48,7 +65,7 @@ namespace SnatchOrders.ViewModels
             if (result) {
                 try { 
                     await App.Database.DeleteCategoryAsync(obj);
-                    Categories.Remove(obj);
+                    CategoriesCollection.Remove(obj);
                 }catch(Exception ex) {
                     await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά τη διαγραφή της κατηγορίας"
                         + Environment.NewLine + ex, "OK");
@@ -57,7 +74,7 @@ namespace SnatchOrders.ViewModels
         }
 
         public async void GetCategoriesList() {
-            Categories.Clear();
+            CategoriesCollection.Clear();
             ListOfCategories.Clear();
 
             try {
@@ -67,7 +84,7 @@ namespace SnatchOrders.ViewModels
                     foreach (Category item in ListOfCategories) {
                         int itemsPerCategory = App.Database.GetItemsAsync(item.ID).Result.Count;
                         item.ItemCount = itemsPerCategory;
-                        Categories.Add(item);
+                        CategoriesCollection.Add(item);
                     }
                     HasItems = true;
                 } else {
@@ -80,7 +97,7 @@ namespace SnatchOrders.ViewModels
         }
 
         private async void CreateNewCategory(object obj){
-            await _navigation.PushAsync(new CategoryDetailPage());
+            await _navigation.PushPopupAsync(new NewCategoryPopupPage());
         }
 
         private async void GoToItemsPage(Category category){

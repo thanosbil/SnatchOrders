@@ -10,7 +10,7 @@
             <ListView
                 x:Name="CategoriesListView"
                 IsVisible="{Binding HasItems}"
-                ItemsSource="{Binding Categories}"
+                ItemsSource="{Binding CategoriesCollection}"
                 HasUnevenRows="True"
                 ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
