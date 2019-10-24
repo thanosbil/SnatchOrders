@@ -28,9 +28,10 @@ namespace SnatchOrders.Data
         /// Φέρνει όλες τις παραγγελίες
         /// </summary>
         /// <returns></returns>
-        public Task<List<Order>> GetOrdersAsync()
+        public async Task<List<Order>> GetOrdersAsync()
         {
-            return database.Table<Order>().OrderByDescending(i => i.DateCreated).ToListAsync();
+            List<Order> OrderList = await database.Table<Order>().OrderByDescending(i => i.DateCreated).ToListAsync();
+            return OrderList;
         }
 
 
@@ -74,6 +75,9 @@ namespace SnatchOrders.Data
             return database.Table<Category>().OrderBy(i => i.Description).ToListAsync();
         }
 
+        public Task<Category> GetCategoryAsync(int id) {
+            return database.Table<Category>().Where(i => i.ID == id).FirstOrDefaultAsync();
+        }
 
         /// <summary>
         /// Αποθηκεύει μια κατηγορία προϊόντων
@@ -106,6 +110,10 @@ namespace SnatchOrders.Data
         #endregion Category
 
         #region Item
+
+        public Task<Item> GetItemAsync(int id) {
+            return database.Table<Item>().Where(i => i.ID == id).FirstOrDefaultAsync();
+        }
 
         /// <summary>
         /// Φέρνει όλα τα προϊόντα

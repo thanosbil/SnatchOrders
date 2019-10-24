@@ -9,6 +9,7 @@
         <StackLayout>
             <ListView
                 x:Name="CategoriesListView"
+                IsVisible="{Binding HasItems}"
                 ItemsSource="{Binding Categories}"
                 HasUnevenRows="True"
                 ItemTapped="ListView_ItemTapped">
@@ -34,12 +35,15 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <!--<StackLayout BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
-                <Image Source="baseline_add_white_48.png" Style="{StaticResource ImageMedium}"/>
-                <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AddCategoryCommand}" />
-                </StackLayout.GestureRecognizers>
-            </StackLayout>-->
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="15">
+                <Label Text="Δημιουργήστε μία κατηγορία και προσθέστε είδη για να ξεκινήσετε" HorizontalTextAlignment="Center" Style="{StaticResource LabelsDefault}"/>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding HasItems}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

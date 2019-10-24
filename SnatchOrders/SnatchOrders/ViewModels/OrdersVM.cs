@@ -4,14 +4,31 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SnatchOrders.ViewModels
 {
     public class OrdersVM : ViewModelBase {
-
-        public ObservableCollection<Order> Orders { get; set; }
+        private bool _hasItems { get; set; }
+        public bool HasItems {
+            get { return _hasItems; }
+            set {
+                if(_hasItems != value) {
+                    _hasItems = value;
+                    OnPropertyChanged("HasItems");
+                }
+            }
+        }
+        private ObservableCollection<Order> _Orders { get; set; }
+        public ObservableCollection<Order> Orders {
+            get { return _Orders; }
+            set {
+                _Orders = value;
+                OnPropertyChanged("Orders");
+            }
+        }
         private List<Order> dbOrders { get; set; }
         public ICommand ItemTappedCommand { get; set; }
         public ICommand NewOrderCommand { get; set; }
@@ -38,8 +55,8 @@ namespace SnatchOrders.ViewModels
             if (result)
             {
                 try {
-                    await App.Database.DeleteOrderAsync(obj);
                     Orders.Remove(obj);
+                    await App.Database.DeleteOrderAsync(obj);                    
                 }catch(Exception ex) {
                     await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά τη διαγραφή της παραγγελίας"
                    + Environment.NewLine + ex, "OK");
@@ -47,18 +64,20 @@ namespace SnatchOrders.ViewModels
             }
         }
 
-        public async void GetOrdersList()
+        public async Task GetOrdersList()
         {
             Orders.Clear();
-            dbOrders.Clear();
+            
             dbOrders = await App.Database.GetOrdersAsync();
 
-            if (dbOrders.Count > 0)
-            {
+            if (dbOrders.Count > 0){
                 foreach (Order item in dbOrders)
                 {
                     Orders.Add(item);
                 }
+                HasItems = true;
+            } else {
+                HasItems = false;
             }
         }
 

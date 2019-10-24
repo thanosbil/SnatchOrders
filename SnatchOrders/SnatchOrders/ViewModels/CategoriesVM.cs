@@ -9,8 +9,18 @@ using Xamarin.Forms;
 
 namespace SnatchOrders.ViewModels
 {
-    public class CategoriesVM
+    public class CategoriesVM : ViewModelBase
     {
+        private bool _hasItems { get; set; }
+        public bool HasItems {
+            get { return _hasItems; }
+            set {
+                if (_hasItems != value) {
+                    _hasItems = value;
+                    OnPropertyChanged("HasItems");
+                }
+            }
+        }
         public Order CurrentOrder { get; set; }
         public ObservableCollection<Category> Categories { get; set; }
                 
@@ -59,6 +69,9 @@ namespace SnatchOrders.ViewModels
                         item.ItemCount = itemsPerCategory;
                         Categories.Add(item);
                     }
+                    HasItems = true;
+                } else {
+                    HasItems = false;
                 }
             }catch(Exception ex) {
                 await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την ανάγνωση των κατηγοριών προϊόντων"

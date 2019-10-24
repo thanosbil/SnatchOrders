@@ -6,6 +6,7 @@
         <StackLayout>
             <ListView x:Name="OrderItemsListView"
                       ItemsSource="{Binding OrderItemsCollection}"
+                      IsVisible="{Binding HasItems}"
                       HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -31,6 +32,21 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>                
             </ListView>
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <Label Text="Δεν υπάρχουν είδη στην παραγγελία" Style="{StaticResource LabelsDefault}"/>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding HasItems}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+            </StackLayout>
+            <StackLayout VerticalOptions="End" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
+                <Label Text="Προσθήκη ειδών"  Style="{StaticResource LabelsToolbar}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddItemsToOrderCommand}" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

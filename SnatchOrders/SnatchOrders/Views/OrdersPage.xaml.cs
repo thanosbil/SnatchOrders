@@ -23,9 +23,9 @@ namespace SnatchOrders.Views
             Title = "Παραγγελίες";
 		}
 
-        protected override void OnAppearing(){
+        protected override async void OnAppearing(){
             base.OnAppearing();
-            ordersVM.GetOrdersList();
+            await ordersVM.GetOrdersList();
         }
 
         private void ListView_ItemTapped(object sender, ItemTappedEventArgs e){

@@ -29,6 +29,9 @@ namespace SnatchOrders.Views
                     case (int)MenuItemType.Home:
                         MenuPages.Add(id, new NavigationPage(new OrdersPage()));
                         break;
+                    case (int)MenuItemType.MailSettings:
+                        MenuPages.Add(id, new NavigationPage(new MailSettingsPage()));
+                        break;
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
                         break;

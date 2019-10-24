@@ -18,6 +18,16 @@ namespace SnatchOrders.ViewModels
         public ICommand DeleteItemCommand { get; set; }
         public ICommand AddItemsToOrderCommand { get; set; }
 
+        private bool _hasItems { get; set; }
+        public bool HasItems {
+            get { return _hasItems; }
+            set {
+                if (_hasItems != value) {
+                    _hasItems = value;
+                    OnPropertyChanged("HasItems");
+                }
+            }
+        }
         private INavigation _Navigation { get; set; }
         private int CategoryId { get; set; }        
         public Order CurrentOrder { get; set; }
@@ -107,6 +117,12 @@ namespace SnatchOrders.ViewModels
                 foreach(Item categoryItem in dbItems) {
                     tempItem = GetOrderItem(categoryItem);
                     ItemsCollection.Add(tempItem);
+                }
+
+                if(ItemsCollection.Count > 0) {
+                    HasItems = true;
+                } else {
+                    HasItems = false;
                 }
             }
         }

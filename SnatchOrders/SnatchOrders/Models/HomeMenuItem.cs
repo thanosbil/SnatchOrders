@@ -7,6 +7,7 @@ namespace SnatchOrders.Models
     public enum MenuItemType
     {
         Home,
+        MailSettings,
         About
     }
     public class HomeMenuItem

@@ -1,4 +1,5 @@
 ﻿using SnatchOrders.Models;
+using SnatchOrders.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,18 +10,36 @@ using Xamarin.Forms;
 
 namespace SnatchOrders.ViewModels
 {
-    public class OrderPageVM {
+    public class OrderPageVM : ViewModelBase {
         public ICommand DeleteOrderItemCommand { get; set; }
+        public ICommand AddItemsToOrderCommand { get; set; }
         public INavigation _Navigation { get; set; }
+        private bool _hasItems { get; set; }
+        public bool HasItems {
+            get { return _hasItems; }
+            set {
+                if (_hasItems != value) {
+                    _hasItems = value;
+                    OnPropertyChanged("HasItems");
+                }
+            }
+        }
         public Order _CurrentOrder { get; set; }
         public ObservableCollection<OrderItem> OrderItemsCollection { get; set; }
+        public ObservableCollection<OrderItemGroup> GroupedOrderItemsCollection { get; set; }
 
         public OrderPageVM(INavigation navigation, Order currentOrder) {
             _Navigation = navigation;
             _CurrentOrder = currentOrder;
             OrderItemsCollection = new ObservableCollection<OrderItem>();
+            GroupedOrderItemsCollection = new ObservableCollection<OrderItemGroup>();
 
             DeleteOrderItemCommand = new Command<OrderItem>(DeleteOrderItem);
+            AddItemsToOrderCommand = new Command(AddItemsToOrder);
+        }
+
+        private async void AddItemsToOrder(object obj) {
+            await _Navigation.PushAsync(new CategoriesPage(_CurrentOrder));
         }
 
         private async void DeleteOrderItem(OrderItem obj) {
@@ -39,6 +58,9 @@ namespace SnatchOrders.ViewModels
                 _CurrentOrder.AllItems = await App.Database.GetOrderItemsAsync(_CurrentOrder.ID);
                 if(_CurrentOrder.AllItems.Count > 0) {
                     ConvertToObservable(_CurrentOrder.AllItems);
+                    HasItems = true;
+                } else {
+                    HasItems = false;
                 }
 
             } catch (Exception ex) {

@@ -11,6 +11,9 @@
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
             <!--Labels-->
+            <Style x:Key="LabelsBig" TargetType="Label">                
+                <Setter Property="FontSize" Value="Large" />
+            </Style>
             <Style x:Key="LabelsDefault" TargetType="Label">
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="Medium" />

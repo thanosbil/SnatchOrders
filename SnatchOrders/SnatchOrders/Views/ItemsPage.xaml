@@ -1,15 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SnatchOrders.Controls"
              x:Class="SnatchOrders.Views.ItemsPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddItemCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout x:Name="OuterStack">
-            <ListView x:Name="ItemsListView"
-                          ItemsSource="{Binding ItemsCollection}"
-                          HasUnevenRows="True">
+            <local:NoRippleListView x:Name="ItemsListView"
+                                    IsVisible="{Binding HasItems}"
+                                    ItemsSource="{Binding ItemsCollection}"
+                                    HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell x:Name="viewCell">
@@ -52,8 +54,17 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </ListView>
-            <StackLayout VerticalOptions="EndAndExpand" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
+            </local:NoRippleListView>
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="15">
+                <Label Text="Προσθέστε ένα είδος στην κατηγορία" HorizontalTextAlignment="Center" Style="{StaticResource LabelsDefault}"/>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding HasItems}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" IsVisible="{Binding HasItems}" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
                 <Label Text="Προσθήκη στην παραγγελία"  Style="{StaticResource LabelsToolbar}" HorizontalOptions="Center" VerticalOptions="Center"/>
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding AddItemsToOrderCommand}" />

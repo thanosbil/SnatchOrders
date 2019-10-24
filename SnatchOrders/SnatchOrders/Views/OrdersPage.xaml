@@ -11,27 +11,52 @@
             <ListView
                 x:Name="OrdersListView"
                 ItemsSource="{Binding Orders}"
+                IsVisible="{Binding HasItems}"
                 HasUnevenRows="True"
                 ItemTapped="ListView_ItemTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell x:Name="viewCell">
                             <StackLayout Padding="15">
-                                <Label Style="{StaticResource LabelsDefault}" 
-                                       Text="{Binding DateCreated, StringFormat='\{0:dd/MM/yy - HH\\:mm}'}" />
-                                <Label Style="{StaticResource LabelsRemark}">
-                                    <Label.Triggers>
-                                        <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.New}">
-                                            <Setter Property="Text" Value="Νέα παραγγελία" />
-                                        </DataTrigger>
-                                        <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.InProgress}">
-                                            <Setter Property="Text" Value="Σε εξέλιξη" />
-                                        </DataTrigger>
-                                        <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.Finished}">
-                                            <Setter Property="Text" Value="Εστάλη" />
-                                        </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0"
+                                           Grid.Column="0" 
+                                           Style="{StaticResource LabelsDefault}" 
+                                           Text="{Binding DateCreated, StringFormat='\{0:dd/MM/yy - HH\\:mm}'}" />
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Style="{StaticResource LabelsRemark}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.New}">
+                                                <Setter Property="Text" Value="Νέα παραγγελία" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.InProgress}">
+                                                <Setter Property="Text" Value="Σε εξέλιξη" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding OrderStatus}" Value="{x:Static enum:StatusOfOrder.Finished}">
+                                                <Setter Property="Text" Value="Εστάλη" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <Label Grid.Column="1"
+                                           Grid.RowSpan="2"
+                                           Style="{StaticResource LabelsBig}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="#" />
+                                                <Span Text="{Binding ID}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
                             </StackLayout>
                             <ViewCell.ContextActions>
                                 <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference OrdersListView}, Path=BindingContext}"
@@ -41,12 +66,15 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <!--<StackLayout BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
-                <Image Source="baseline_add_white_48.png" Style="{StaticResource ImageMedium}"/>
-                <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NewOrderCommand}" />
-                </StackLayout.GestureRecognizers>
-            </StackLayout>-->
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <Label Text="Δεν υπάρχουν παραγγελίες" Style="{StaticResource LabelsDefault}"/>
+                <StackLayout.Triggers>
+                    <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding HasItems}" Value="True">
+                        <Setter Property="IsVisible" Value="False" />
+                    </DataTrigger>
+                </StackLayout.Triggers>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
