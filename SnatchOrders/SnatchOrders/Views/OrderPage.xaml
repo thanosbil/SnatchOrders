@@ -5,13 +5,47 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="OrderItemsListView"
-                      ItemsSource="{Binding OrderItemsCollection}"
+                      ItemsSource="{Binding GroupedOrderItemsCollection}"
                       IsVisible="{Binding HasItems}"
+                      IsGroupingEnabled="True"
                       HasUnevenRows="True">
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Padding="15">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0"
+                                       Grid.Column="0" 
+                                       FontSize="Medium">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding GroupTitle}" />
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding ItemCount, StringFormat='({0})'}" FontSize="Medium"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Image Grid.Row="0"
+                                       Grid.Column="1"
+                                       Style="{StaticResource ImageSmall}"
+                                       Source="{Binding StateIcon}" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell x:Name="viewCell">
-                            <StackLayout Style="{StaticResource StackPadding}">
+                            <StackLayout Style="{StaticResource GroupItemStackPadding}" IsVisible="{Binding IsVisible}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />

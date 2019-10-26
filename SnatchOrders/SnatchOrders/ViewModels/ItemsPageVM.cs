@@ -35,7 +35,7 @@ namespace SnatchOrders.ViewModels
         public Order CurrentOrder { get; set; }
         public List<Item> DbItems { get; set; }
         public ObservableCollection<OrderItem> ItemsCollection { get; set; }
-
+        
         public ItemsPageVM(INavigation navigation, Order currentOrder, int categoryId) {
             _Navigation = navigation;
 
@@ -66,6 +66,7 @@ namespace SnatchOrders.ViewModels
                     foreach (OrderItem item in ItemsCollection) {
                         if (item.Count > 0) {
                             item.OrderId = CurrentOrder.ID;
+                            item.CategoryId = CategoryId;
                             CurrentOrder.AllItems.Add(item);
                             await App.Database.SaveOrderItemAsync(item);
                         }
@@ -118,6 +119,7 @@ namespace SnatchOrders.ViewModels
 
             ConverToObservable(DbItems);
         }
+
 
         private void ConverToObservable(List<Item> dbItems) {
             ItemsCollection.Clear();

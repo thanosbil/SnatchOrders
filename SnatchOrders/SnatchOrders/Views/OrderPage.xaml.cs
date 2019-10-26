@@ -29,5 +29,11 @@ namespace SnatchOrders.Views
 
             await orderPageVM.GetOrderItems();
         }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e) {
+            var grid = sender as Grid;
+            var group = grid.BindingContext as OrderItemGroup;            
+            orderPageVM.GroupTappedCommand.Execute(group);
+        }
     }
 }

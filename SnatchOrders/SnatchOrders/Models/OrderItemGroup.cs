@@ -14,10 +14,13 @@ namespace SnatchOrders.Models
             set {
                 if(_expanded != value) {
                     _expanded = value;
-                    OnPropertyChanged("Expanded");
+                    OnPropertyChanged(new PropertyChangedEventArgs("Expanded"));
+                    OnPropertyChanged(new PropertyChangedEventArgs("StateIcon"));
                 }
             }
         }
+
+        public List<OrderItem> BackUpList { get; set; }
 
         public string GroupTitle { get; set; }
 
@@ -30,12 +33,12 @@ namespace SnatchOrders.Models
         public OrderItemGroup(string title, bool expanded = true) {
             GroupTitle = title;
             Expanded = expanded;
+            BackUpList = new List<OrderItem>();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        internal void CopyList() {
+            BackUpList.Clear();
+            BackUpList.AddRange(this);
         }
     }
 }
