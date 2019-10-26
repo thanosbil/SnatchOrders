@@ -5,11 +5,11 @@ using Xamarin.Forms;
 
 namespace SnatchOrders.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
-    {
+    public class AboutViewModel  {
+
         public AboutViewModel()
         {
-            Title = "About";
+            //Title = "About";
 
             OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://xamarin.com/platform")));
         }

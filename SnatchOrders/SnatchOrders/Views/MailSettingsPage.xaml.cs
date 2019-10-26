@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SnatchOrders.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,19 @@ namespace SnatchOrders.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MailSettingsPage : ContentPage
 	{
+        MailSettingsPageVM mailSettingsPageVM;
+
 		public MailSettingsPage ()
 		{
 			InitializeComponent ();
+            mailSettingsPageVM = new MailSettingsPageVM(Navigation);
+            BindingContext = mailSettingsPageVM;
 		}
-	}
+
+        protected override void OnAppearing() {
+            base.OnAppearing();
+
+            mailSettingsPageVM.GetDbEmailAccounts();
+        }
+    }
 }

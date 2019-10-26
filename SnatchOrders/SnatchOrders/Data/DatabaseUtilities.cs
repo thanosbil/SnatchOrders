@@ -19,6 +19,7 @@ namespace SnatchOrders.Data
             database.CreateTableAsync<Category>().Wait();
             database.CreateTableAsync<Item>().Wait();
             database.CreateTableAsync<OrderItem>().Wait();
+            database.CreateTableAsync<EmailAccount>().Wait();
         }
 
         #region Order
@@ -177,5 +178,42 @@ namespace SnatchOrders.Data
         }
 
         #endregion OrderItem        
+
+        #region Email
+
+        /// <summary>
+        /// Φέρνει τις αποθηκευμένες διευθύνσεις email
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<EmailAccount>> GetEmailAcountsAsync() {
+            List<EmailAccount> EmailList = await database.Table<EmailAccount>().OrderBy(i => i.DateSaved).ToListAsync();
+            return EmailList;
+        }
+
+
+        /// <summary>
+        /// Αποθηκεύει ένα email
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> SaveEmailAcountAsync(EmailAccount item) {
+            if (item.ID != 0) {
+                return database.UpdateAsync(item);
+            } else {
+                return database.InsertAsync(item);
+            }
+        }
+
+        /// <summary>
+        /// Διαγράφει μια email
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public Task<int> DeleteEmailAcountAsync(EmailAccount item) {
+            return database.DeleteAsync(item);
+        }
+
+
+        #endregion Email
     }
 }

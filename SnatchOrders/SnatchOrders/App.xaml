@@ -11,6 +11,11 @@
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
             <!--Labels-->
+            <Style x:Key="LabelsEmphasized" TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
             <Style x:Key="LabelsBig" TargetType="Label">                
                 <Setter Property="FontSize" Value="Large" />
             </Style>

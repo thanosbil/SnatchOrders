@@ -30,7 +30,7 @@
                                            Style="{StaticResource LabelsDefault}"/>
                                     <Grid Grid.Row="0" Grid.Column="2" VerticalOptions="Center" ColumnSpacing="10">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="40" />
                                         </Grid.RowDefinitions>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />

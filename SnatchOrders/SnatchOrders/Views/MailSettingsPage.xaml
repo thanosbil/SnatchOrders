@@ -1,12 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SnatchOrders.Views.MailSettingsPage">
+             x:Class="SnatchOrders.Views.MailSettingsPage"
+             Title="Ρυθμίσεις email">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddMailAccountCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Style="{StaticResource StackPadding}">
+                <Label Text="Οδηγίες ρυθμίσεων" Style="{StaticResource LabelsEmphasized}"/>
+                <Label Text="Σε περίπτωση που χρησιμοποιείτε email για την αποστολή της λίστας, για δική σας ευκολία καλό θα ήταν να αποθηκεύσετε τις διευθύνσεις email που χρησιμοποιείτε για εύκολη συμπλήρωση κατά την αποστολή." 
+                       Style="{StaticResource LabelsDefault}"/>
+                <StackLayout Margin="0,15,0,0" VerticalOptions="FillAndExpand">
+                    <Label Text="Αποθηκευμένες διευθύνσεις"
+                           Style="{StaticResource LabelsEmphasized}"/>
+                    <ListView 
+                        x:Name="EmailListView"
+                        ItemsSource="{Binding EmailAccountsCollection}"
+                        IsVisible="{Binding HasItems}"
+                        HasUnevenRows="True">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell x:Name="viewCell">
+                                    <StackLayout Padding="15">
+                                        <Label Grid.Row="0"
+                                               Grid.Column="0" 
+                                               Style="{StaticResource LabelsDefault}" 
+                                               Text="{Binding Email}" />                                        
+                                    </StackLayout>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference EmailListView}, Path=BindingContext}"
+                                          CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}" Command="{Binding DeleteEmailCommand}"/>
+                                    </ViewCell.ContextActions>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Padding="15">
+                        <Label Text="Δεν υπάρχουν αποθηκευμένες διευθύνσεις email" HorizontalTextAlignment="Center" Style="{StaticResource LabelsDefault}"/>
+                        <StackLayout.Triggers>
+                            <DataTrigger TargetType="StackLayout"
+                                     Binding="{Binding HasItems}" Value="True">
+                                <Setter Property="IsVisible" Value="False" />
+                            </DataTrigger>
+                        </StackLayout.Triggers>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>        
     </ContentPage.Content>
 </ContentPage>
