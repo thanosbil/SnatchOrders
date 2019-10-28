@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SnatchOrders.Views.ShareOrderPage"
+             Title="Κοινοποίηση παραγγελίας">
+    <ContentPage.Content>
+        <StackLayout Style="{StaticResource StackPadding}">
+            <Label Style="{StaticResource LabelsEmphasized}"
+                   Text="Αποστολή μέσω email"/>
+            <Label Style="{StaticResource LabelsDefault}"
+                   Text="Επιλέξτε από τις αποθηκευμένες διευθύνσεις" />
+            <Grid Margin="0,10,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0"
+                       Grid.Column="0"
+                       Style="{StaticResource LabelsDefault}"
+                       Text="To:"
+                       VerticalOptions="CenterAndExpand" />
+                <Picker Grid.Row="0"
+                        Grid.Column="1"
+                        ItemsSource="{Binding EmailCollection}"
+                        ItemDisplayBinding="{Binding Email}"
+                        SelectedItem="{Binding EmailTo}"
+                        Title="(Προαιρετικό)" />
+                <Label Grid.Row="1"
+                       Grid.Column="0"
+                       Style="{StaticResource LabelsDefault}"
+                       Text="Cc:"
+                       VerticalOptions="CenterAndExpand" />
+                <Picker Grid.Row="1"
+                        Grid.Column="1"
+                        ItemsSource="{Binding EmailCollection}"
+                        ItemDisplayBinding="{Binding Email}"
+                        SelectedItem="{Binding EmailCc}"
+                        Title="(Προαιρετικό)" />
+                <Label Grid.Row="2"
+                       Grid.Column="0"
+                       Style="{StaticResource LabelsDefault}"
+                       Text="Bcc:"
+                       VerticalOptions="CenterAndExpand" />
+                <Picker Grid.Row="2"
+                        Grid.Column="1"
+                        ItemsSource="{Binding EmailCollection}"
+                        ItemDisplayBinding="{Binding Email}"
+                        SelectedItem="{Binding EmailBcc}"
+                        Title="(Προαιρετικό)" />
+            </Grid>
+            <Button Margin="0,15,0,0" 
+                    Text="Δημιουργία email" 
+                    Command="{Binding CreateMailBodyCommand}"
+                    Style="{StaticResource ButtonDefault}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

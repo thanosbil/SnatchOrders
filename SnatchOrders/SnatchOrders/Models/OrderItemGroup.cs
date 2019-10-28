@@ -23,8 +23,16 @@ namespace SnatchOrders.Models
         public List<OrderItem> BackUpList { get; set; }
 
         public string GroupTitle { get; set; }
-
-        public int ItemCount { get; set; }
+        private int _itemCount { get; set; }
+        public int ItemCount {
+            get { return _itemCount; }
+            set {
+                if(_itemCount != value) {
+                    _itemCount = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("ItemCount"));
+                }
+            }
+        }
 
         public string StateIcon {
             get { return Expanded ? "baseline_expand_less_black_48.png" : "baseline_expand_more_black_48.png"; }

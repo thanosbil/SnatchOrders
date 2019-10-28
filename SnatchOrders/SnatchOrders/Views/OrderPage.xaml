@@ -75,10 +75,43 @@
                     </DataTrigger>
                 </StackLayout.Triggers>
             </StackLayout>
-            <StackLayout VerticalOptions="End" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackPadding}">
-                <Label Text="Προσθήκη ειδών"  Style="{StaticResource LabelsToolbar}" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <StackLayout VerticalOptions="End" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackButtonPadding}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Row="0"
+                           Grid.Column="0"
+                           Source="baseline_add_white_48" 
+                           Style="{StaticResource ImageMedium}"/>
+                    <Button Grid.Row="0"
+                            Grid.Column="0"
+                            Command="{Binding AddItemsToOrderCommand}"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"/>
+                    <BoxView Grid.Row="0"
+                             Grid.Column="1"
+                             BackgroundColor="White"/>
+                    <Image Grid.Row="0"
+                           Grid.Column="2"
+                           Source="baseline_done_white_48" 
+                           Style="{StaticResource ImageMedium}"/>
+                    <Button Grid.Row="0"
+                            Grid.Column="2"
+                            Command="{Binding DoneEditingOrderCommand}"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"/>
+                </Grid>
+                <!--<Label Text="Προσθήκη ειδών"  Style="{StaticResource LabelsToolbar}" HorizontalOptions="Center" VerticalOptions="Center"/>-->
                 <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AddItemsToOrderCommand}" />
+                    <TapGestureRecognizer  />
                 </StackLayout.GestureRecognizers>
             </StackLayout>
         </StackLayout>

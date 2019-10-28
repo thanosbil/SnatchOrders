@@ -22,7 +22,7 @@ namespace SnatchOrders.Views.PopupViews
         private async void Ok_Button_Clicked(object sender, EventArgs e) {            
             if (!string.IsNullOrEmpty(Description.Text)) {
                 Item newItem = new Item();
-                newItem.Description = Description.Text;
+                newItem.Description = Description.Text.Trim();
                 newItem.CategoryId = _CategoryId;
 
                 try {

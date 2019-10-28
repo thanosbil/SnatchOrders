@@ -15,6 +15,8 @@ namespace SnatchOrders.ViewModels
         public ICommand GroupTappedCommand { get; set; }
         public ICommand DeleteOrderItemCommand { get; set; }
         public ICommand AddItemsToOrderCommand { get; set; }
+        public ICommand DoneEditingOrderCommand { get; set; }
+
         public INavigation _Navigation { get; set; }
         private bool _hasItems { get; set; }
         public bool HasItems {
@@ -39,6 +41,11 @@ namespace SnatchOrders.ViewModels
             DeleteOrderItemCommand = new Command<OrderItem>(DeleteOrderItem);
             AddItemsToOrderCommand = new Command(AddItemsToOrder);
             GroupTappedCommand = new Command<OrderItemGroup>(GroupTapped);
+            DoneEditingOrderCommand = new Command(DoneEditingOrder);
+        }
+
+        private async void DoneEditingOrder() {
+            await _Navigation.PushAsync(new ShareOrderPage(_CurrentOrder));
         }
 
         private void GroupTapped(OrderItemGroup obj) {
@@ -53,7 +60,7 @@ namespace SnatchOrders.ViewModels
             
         }
 
-        private async void AddItemsToOrder(object obj) {
+        private async void AddItemsToOrder() {
             await _Navigation.PushAsync(new CategoriesPage(_CurrentOrder));
         }
 
@@ -66,6 +73,8 @@ namespace SnatchOrders.ViewModels
                 await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά τη διαγραφή του είδους"
                   + Environment.NewLine + ex, "OK");
             }
+
+            await GetOrderItems();
         }
 
         internal async Task GetOrderItems() {

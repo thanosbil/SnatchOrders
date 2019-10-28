@@ -22,7 +22,7 @@ namespace SnatchOrders.Views.PopupViews
         private async void Ok_Button_Clicked(object sender, EventArgs e) {
             if (!string.IsNullOrEmpty(Description.Text)) {
                 Category newCategory = new Category();
-                newCategory.Description = Description.Text;
+                newCategory.Description = Description.Text.Trim();
                 
                 try {
                     await App.Database.SaveCategoryAsync(newCategory);

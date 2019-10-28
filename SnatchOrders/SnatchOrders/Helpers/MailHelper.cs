@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace SnatchOrders.Helpers
 {
@@ -35,6 +37,24 @@ namespace SnatchOrders.Helpers
             } catch (Exception ex) {
                 App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε κάποιο πρόβλημα κατά την αποστολή του email." +
                     Environment.NewLine + ex, "OK");
+            }
+        }
+
+        public static async Task SendEmail(string subject, string body, List<string> recipients, List<string> ccRecipients, List<string> bccRecipients) {
+            try {
+                var message = new EmailMessage {
+                    Subject = subject,
+                    Body = body,
+                    To = recipients,
+                    Cc = ccRecipients,
+                    Bcc = bccRecipients
+                };
+
+                await Email.ComposeAsync(message);
+            } catch (FeatureNotSupportedException fbsEx) {
+                // Email is not supported on this device
+            } catch (Exception ex) {
+                // Some other exception occurred
             }
         }
     }

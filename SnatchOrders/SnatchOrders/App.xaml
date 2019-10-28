@@ -34,6 +34,9 @@
             <Style x:Key="StackPadding" TargetType="StackLayout">
                 <Setter Property="Padding" Value="15" />
             </Style>
+            <Style x:Key="StackButtonPadding" TargetType="StackLayout">
+                <Setter Property="Padding" Value="10" />
+            </Style>
             <Style x:Key="GroupItemStackPadding" TargetType="StackLayout">
                 <Setter Property="Padding" Value="25,15,15,15" />
             </Style>
@@ -59,6 +62,10 @@
                 <Setter Property="WidthRequest" Value="40"/>
                 <Setter Property="HeightRequest" Value="40"/>
                 <Setter Property="CornerRadius" Value="4" />
+            </Style>
+            <Style x:Key="ButtonDefault" TargetType="Button">
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="TextColor" Value="Black" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

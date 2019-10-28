@@ -66,6 +66,7 @@ namespace SnatchOrders.ViewModels
         }
 
         private void ConvertListToCollection(List<EmailAccount> dbList) {
+            EmailAccountsCollection.Clear();
             if (dbList.Count > 0) {
                 foreach (EmailAccount item in dbList) {
                     EmailAccountsCollection.Add(item);

@@ -25,7 +25,7 @@ namespace SnatchOrders.Views.PopupViews
         private async void Ok_Button_Clicked(object sender, EventArgs e) {
             if (!string.IsNullOrEmpty(EmailAddress.Text)) {
                 EmailAccount newEmail = new EmailAccount();
-                newEmail.Email = EmailAddress.Text;
+                newEmail.Email = EmailAddress.Text.Trim();
                 newEmail.DateSaved = DateTime.Now;
 
                 try {
