@@ -57,6 +57,10 @@
                     Text="Δημιουργία email" 
                     Command="{Binding CreateMailBodyCommand}"
                     Style="{StaticResource ButtonDefault}" />
+            <Button Margin="0,15,0,0" 
+                    Text="Κοινοποίηση με άλλη μέθοδο" 
+                    Command="{Binding ShareOrderCommand}"
+                    Style="{StaticResource ButtonDefault}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

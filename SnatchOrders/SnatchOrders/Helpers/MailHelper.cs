@@ -43,8 +43,8 @@ namespace SnatchOrders.Helpers
         public static async Task SendEmail(string subject, string body, List<string> recipients, List<string> ccRecipients, List<string> bccRecipients) {
             try {
                 var message = new EmailMessage {
-                    Subject = subject,
-                    Body = body,
+                    Subject = subject,                    
+                    Body = body,                    
                     To = recipients,
                     Cc = ccRecipients,
                     Bcc = bccRecipients
@@ -53,8 +53,12 @@ namespace SnatchOrders.Helpers
                 await Email.ComposeAsync(message);
             } catch (FeatureNotSupportedException fbsEx) {
                 // Email is not supported on this device
+                await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε κάποιο πρόβλημα κατά τη δημιουργία του email." +
+                    Environment.NewLine + fbsEx, "OK");
             } catch (Exception ex) {
                 // Some other exception occurred
+                await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε κάποιο πρόβλημα κατά τη δημιουργία του email." +
+                    Environment.NewLine + ex, "OK");
             }
         }
     }

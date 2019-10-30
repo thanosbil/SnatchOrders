@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SnatchOrders.ViewModels
@@ -26,11 +27,12 @@ namespace SnatchOrders.ViewModels
                 }
             }
         }
+        public string MailSubject { get; set; }
 
         public MailSettingsPageVM(INavigation navigation) {
             _Navigation = navigation;
             EmailAccountsCollection = new ObservableCollection<EmailAccount>();
-
+            MailSubject = Preferences.Get("MailSubject", "");
             AddMailAccountCommand = new Command(AddMailAccount);
             DeleteEmailCommand = new Command<EmailAccount>(DeleteEmail);
 
