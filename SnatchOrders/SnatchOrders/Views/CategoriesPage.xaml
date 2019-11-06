@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SnatchOrders.Views.CategoriesPage">
+             x:Class="SnatchOrders.Views.CategoriesPage"
+             Title="Κατηγορίες">
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddCategoryCommand}" />
     </ContentPage.ToolbarItems>

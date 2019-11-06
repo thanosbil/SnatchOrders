@@ -23,6 +23,7 @@ namespace SnatchOrders.ViewModels
                 }
             }
         }
+        public bool IsMenuAction { get; set; }
         public Order CurrentOrder { get; set; }
         private ObservableCollection<Category> _categoriesCollection { get; set; }
         public ObservableCollection<Category> CategoriesCollection {
@@ -40,10 +41,35 @@ namespace SnatchOrders.ViewModels
         private INavigation _navigation;
         private List<Category> ListOfCategories;
 
+        /// <summary>
+        /// Αποθηκευμένα είδη
+        /// </summary>
+        /// <param name="navigation"></param>
+        public CategoriesVM(INavigation navigation) {
+            _navigation = navigation;
+
+            IsMenuAction = true;
+            AddCategoryCommand = new Command(CreateNewCategory);
+            GoToItemsPageCommand = new Command<Category>(GoToItemsPage);
+            DeleteCategoryCommand = new Command<Category>(DeleteCategory);
+            CategoriesCollection = new ObservableCollection<Category>();
+            ListOfCategories = new List<Category>();
+
+            MessagingCenter.Subscribe<NewCategoryPopupPage>(this, "Added", (sender) => {
+                RefreshCategories();
+            });
+        }
+
+        /// <summary>
+        /// Από παραγγελία
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <param name="currentOrder"></param>
         public CategoriesVM(INavigation navigation, Order currentOrder) {
             _navigation = navigation;
             CurrentOrder = currentOrder;
-            
+
+            IsMenuAction = false;
             AddCategoryCommand = new Command(CreateNewCategory);
             GoToItemsPageCommand = new Command<Category>(GoToItemsPage);
             DeleteCategoryCommand = new Command<Category>(DeleteCategory);
@@ -101,7 +127,7 @@ namespace SnatchOrders.ViewModels
         }
 
         private async void GoToItemsPage(Category category){
-            await _navigation.PushAsync(new ItemsPage(CurrentOrder, category));
+            await _navigation.PushAsync(new ItemsPage(CurrentOrder, category, IsMenuAction));
         }
     }
 }

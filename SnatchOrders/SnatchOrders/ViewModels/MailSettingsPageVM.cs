@@ -27,12 +27,10 @@ namespace SnatchOrders.ViewModels
                 }
             }
         }
-        public string MailSubject { get; set; }
-
+        
         public MailSettingsPageVM(INavigation navigation) {
             _Navigation = navigation;
             EmailAccountsCollection = new ObservableCollection<EmailAccount>();
-            MailSubject = Preferences.Get("MailSubject", "");
             AddMailAccountCommand = new Command(AddMailAccount);
             DeleteEmailCommand = new Command<EmailAccount>(DeleteEmail);
 

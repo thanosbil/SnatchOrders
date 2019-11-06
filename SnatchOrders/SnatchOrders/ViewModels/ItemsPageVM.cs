@@ -27,20 +27,24 @@ namespace SnatchOrders.ViewModels
                 if (_hasItems != value) {
                     _hasItems = value;
                     OnPropertyChanged("HasItems");
+                    OnPropertyChanged("HasItemsAndIsNotMenuAction");
                 }
             }
         }
+        public bool IsMenuAction { get; set; }
+        public bool HasItemsAndIsNotMenuAction { get { return HasItems && !IsMenuAction; } }
         private INavigation _Navigation { get; set; }
         private int CategoryId { get; set; }        
         public Order CurrentOrder { get; set; }
         public List<Item> DbItems { get; set; }
         public ObservableCollection<OrderItem> ItemsCollection { get; set; }
         
-        public ItemsPageVM(INavigation navigation, Order currentOrder, int categoryId) {
+        public ItemsPageVM(INavigation navigation, Order currentOrder, int categoryId, bool isMenuAction) {
             _Navigation = navigation;
 
             ItemsCollection = new ObservableCollection<OrderItem>();
 
+            IsMenuAction = isMenuAction;
             CategoryId = categoryId;
             CurrentOrder = currentOrder;
             AddItemCommand = new Command(AddItem);

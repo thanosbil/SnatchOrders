@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SnatchOrders.Views.MailSettingsPage"
-             Title="Ρυθμίσεις email">
+             Title="Διευθύνσεις email">
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddMailAccountCommand}" />
     </ContentPage.ToolbarItems>
@@ -11,14 +11,7 @@
             <StackLayout Style="{StaticResource StackPadding}">
                 <Label Text="Οδηγίες ρυθμίσεων" Style="{StaticResource LabelsEmphasized}"/>
                 <Label Text="Σε περίπτωση που χρησιμοποιείτε email για την αποστολή της λίστας, για δική σας ευκολία καλό θα ήταν να αποθηκεύσετε τις διευθύνσεις email που χρησιμοποιείτε για εύκολη συμπλήρωση κατά την αποστολή." 
-                       Style="{StaticResource LabelsDefault}"/>
-                <StackLayout Margin="0,15,0,0">
-                    <Label Text="Θέμα email"
-                           Style="{StaticResource LabelsEmphasized}"/>
-                    <Entry Text="{Binding MailSubject}" 
-                           TextChanged="Entry_TextChanged"
-                           Placeholder="Ορίστε το θέμα του email"/>
-                </StackLayout>
+                       Style="{StaticResource LabelsDefault}"/>                
                 <StackLayout Margin="0,15,0,0" VerticalOptions="FillAndExpand">
                     <Label Text="Αποθηκευμένες διευθύνσεις"
                            Style="{StaticResource LabelsEmphasized}"/>

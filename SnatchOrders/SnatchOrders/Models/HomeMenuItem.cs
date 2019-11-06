@@ -8,6 +8,7 @@ namespace SnatchOrders.Models
     {
         Home,
         MailSettings,
+        Items,
         About
     }
     public class HomeMenuItem

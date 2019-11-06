@@ -92,7 +92,7 @@ namespace SnatchOrders.ViewModels
                 await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση της παραγγελίας"
                     + Environment.NewLine + ex,"OK");
             }
-            await _navigation.PushAsync(new CategoriesPage(current));
+            await _navigation.PushAsync(new OrderPage(current));
         }
     }
 }

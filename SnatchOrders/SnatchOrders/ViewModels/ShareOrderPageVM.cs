@@ -23,13 +23,14 @@ namespace SnatchOrders.ViewModels
         public EmailAccount EmailCc { get; set; }
         public EmailAccount EmailBcc { get; set; }
         public ObservableCollection<EmailAccount> EmailCollection { get; set; }
+        public string MailSubject { get; set; }
 
         public ShareOrderPageVM(INavigation navigation, Order currentOrder) {
             _Navigation = navigation;
 
             EmailCollection = new ObservableCollection<EmailAccount>();
             _CurrentOrder = currentOrder;
-
+            MailSubject = Preferences.Get("MailSubject", "");
             CreateMailBodyCommand = new Command(CreateMailBody);
             ShareOrderCommand = new Command(ShareOrder);
         }
@@ -81,7 +82,19 @@ namespace SnatchOrders.ViewModels
                 bccRec.Add(EmailBcc.Email);
             }
 
-            await MailHelper.SendEmail(Preferences.Get("MailSubject", ""), body, rec, ccRec, bccRec);            
+            await MailHelper.SendEmail(Preferences.Get("MailSubject", ""), body, rec, ccRec, bccRec);
+            FinishOrder();
+        }
+
+        private async void FinishOrder() {
+            _CurrentOrder.OrderStatus = StatusOfOrder.Finished;
+
+            try {
+                await App.Database.SaveOrderAsync(_CurrentOrder);
+            } catch (Exception ex) {
+                await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση της παραγγελίας"
+                    + Environment.NewLine + ex, "OK");
+            }            
         }
 
         public async void GetEmailList() {

@@ -16,9 +16,16 @@ namespace SnatchOrders.Views
 	{
         CategoriesVM categoriesVM;
 
-		public CategoriesPage (Order currentOrder) {
+        public CategoriesPage() {
+            InitializeComponent();
+            
+            categoriesVM = new CategoriesVM(Navigation);
+            BindingContext = categoriesVM;
+        }
+
+        public CategoriesPage (Order currentOrder) {
 			InitializeComponent ();
-            Title = "Κατηγορίες";
+            
             categoriesVM = new CategoriesVM(Navigation, currentOrder);
             BindingContext = categoriesVM;
 		}

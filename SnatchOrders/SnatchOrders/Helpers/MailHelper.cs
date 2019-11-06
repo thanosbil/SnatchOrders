@@ -16,29 +16,29 @@ namespace SnatchOrders.Helpers
             return body;
         }
 
-        public static void SendMail(string to, string cc, string subject, string body) {
-            try {
+        //public static void SendMail(string to, string cc, string subject, string body) {
+        //    try {
 
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+        //        MailMessage mail = new MailMessage();
+        //        SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
-                mail.From = new MailAddress("");
-                mail.To.Add(to);
-                mail.Subject = subject;
-                mail.Body = body;
+        //        mail.From = new MailAddress("");
+        //        mail.To.Add(to);
+        //        mail.Subject = subject;
+        //        mail.Body = body;
 
-                SmtpServer.Port = 587;
-                SmtpServer.Host = "smtp.gmail.com";
-                SmtpServer.EnableSsl = true;
-                SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("", "");
+        //        SmtpServer.Port = 587;
+        //        SmtpServer.Host = "smtp.gmail.com";
+        //        SmtpServer.EnableSsl = true;
+        //        SmtpServer.UseDefaultCredentials = false;
+        //        SmtpServer.Credentials = new System.Net.NetworkCredential("", "");
 
-                SmtpServer.Send(mail);
-            } catch (Exception ex) {
-                App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε κάποιο πρόβλημα κατά την αποστολή του email." +
-                    Environment.NewLine + ex, "OK");
-            }
-        }
+        //        SmtpServer.Send(mail);
+        //    } catch (Exception ex) {
+        //        App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε κάποιο πρόβλημα κατά την αποστολή του email." +
+        //            Environment.NewLine + ex, "OK");
+        //    }
+        //}
 
         public static async Task SendEmail(string subject, string body, List<string> recipients, List<string> ccRecipients, List<string> bccRecipients) {
             try {
