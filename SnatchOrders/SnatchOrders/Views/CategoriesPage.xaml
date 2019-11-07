@@ -2,12 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SnatchOrders.Views.CategoriesPage"
-             Title="Κατηγορίες">
+             Title="Αποθηκευμένα είδη">
     <ContentPage.ToolbarItems>
         <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddCategoryCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <StackLayout Style="{StaticResource StackPadding}">
+                <Label Text="Κατηγορίες" Style="{StaticResource LabelsEmphasized}"/>
+            </StackLayout>
             <ListView
                 x:Name="CategoriesListView"
                 IsVisible="{Binding HasItems}"

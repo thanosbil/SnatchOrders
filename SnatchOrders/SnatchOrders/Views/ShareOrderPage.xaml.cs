@@ -31,5 +31,12 @@ namespace SnatchOrders.Views
         private void Entry_TextChanged(object sender, TextChangedEventArgs e) {
             Preferences.Set("MailSubject", e.NewTextValue);
         }
+        
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e) {
+            if (!shareOrderPageVM.HasItems) {
+                await DisplayAlert("Προσοχή", "Δεν βρέθηκε αποθηκευμένη διεύθυνση email. Επιλέξτε από το μενού " +
+                    "την ενότητα \"Διευθύνσεις email\" για να δημιουργήσετε μια διεύθυνση.", "OK");
+            }
+        }
     }
 }

@@ -27,7 +27,14 @@
                                     </Grid.ColumnDefinitions>
                                     <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}"  VerticalOptions="Center" Style="{StaticResource LabelsDefault}"/>
                                     <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" TextColor="#2962ff" VerticalOptions="Center" HorizontalOptions="Center"
-                                           Style="{StaticResource LabelsDefault}"/>
+                                           Style="{StaticResource LabelsDefault}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label"
+                                                         Binding="{Binding Source={x:Reference imgBtn}, Path=IsVisible}" Value="False">
+                                                <Setter Property="IsVisible" Value="False" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                     <Grid Grid.Row="0" Grid.Column="2" VerticalOptions="Center" ColumnSpacing="10">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="40" />
@@ -36,13 +43,13 @@
                                             <ColumnDefinition Width="50" />
                                             <ColumnDefinition Width="50" />
                                         </Grid.ColumnDefinitions>
-                                        <ImageButton Grid.Row="0" Grid.Column="0" Source="baseline_remove_black_48" Style="{StaticResource ImageButtonSmall}"
+                                        <ImageButton x:Name="imgBtn" Grid.Row="0" Grid.Column="0" Source="baseline_remove_black_48" Style="{StaticResource ImageButtonSmall}"
                                                      BorderWidth="1" BorderColor="Gray" BackgroundColor="LightGray" Padding="5"
-                                                     BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}" 
+                                                     BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}" IsVisible="{Binding IsNotMenuAction}"
                                                      Command="{Binding DecreaseCountCommand}" CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}"/>
                                         <ImageButton Grid.Row="0" Grid.Column="1" Source="baseline_add_black_48" Style="{StaticResource ImageButtonSmall}"
                                                      BorderWidth="1" BorderColor="Gray" BackgroundColor="LightGray" Padding="5"
-                                                     BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}"
+                                                     BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}" IsVisible="{Binding IsNotMenuAction}"
                                                      Command="{Binding IncreaseCountCommand}" CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}"/>
                                     </Grid>
                                 </Grid>

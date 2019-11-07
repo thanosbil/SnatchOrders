@@ -30,9 +30,10 @@ namespace SnatchOrders.ViewModels
                     OnPropertyChanged("HasItemsAndIsNotMenuAction");
                 }
             }
-        }
+        }        
         public bool IsMenuAction { get; set; }
-        public bool HasItemsAndIsNotMenuAction { get { return HasItems && !IsMenuAction; } }
+        public bool IsNotMenuAction { get { return !IsMenuAction; } }
+        public bool HasItemsAndIsNotMenuAction { get { return HasItems && IsNotMenuAction; } }
         private INavigation _Navigation { get; set; }
         private int CategoryId { get; set; }        
         public Order CurrentOrder { get; set; }
@@ -63,7 +64,13 @@ namespace SnatchOrders.ViewModels
         }
 
         private async void AddItemsToOrder() {
-            bool result = await App.Current.MainPage.DisplayAlert("Επιβεβαίωση", "Εισαγωγή των ειδών στην παραγγελία;", "OK", "ΑΚΥΡΟ");
+            bool hasAddedItems = CheckHasItems(ItemsCollection);
+            bool result = false;
+
+            if (hasAddedItems)
+                result = await App.Current.MainPage.DisplayAlert("Επιβεβαίωση", "Εισαγωγή των ειδών στην παραγγελία;", "OK", "ΑΚΥΡΟ");
+            else
+                await App.Current.MainPage.DisplayAlert("Προσοχή", "Δεν έχετε προσθέσει ποσότητα σε κάποιο είδος", "OK");
 
             if (result) {
                 try {
@@ -76,7 +83,7 @@ namespace SnatchOrders.ViewModels
                         }
                     }
 
-                    if(CurrentOrder.AllItems.Count > 0) {
+                    if(CurrentOrder.AllItems.Count > 0 && CurrentOrder.OrderStatus == StatusOfOrder.New) {
                         CurrentOrder.OrderStatus = StatusOfOrder.InProgress;
                         await App.Database.SaveOrderAsync(CurrentOrder);
                     }
@@ -155,6 +162,19 @@ namespace SnatchOrders.ViewModels
         private async void AddItem() {
             //            await _Navigation.PushAsync(new NewItemPage(CategoryId));
             await _Navigation.PushPopupAsync(new NewItemPopupPage(CategoryId));
+        }
+
+        private bool CheckHasItems(ObservableCollection<OrderItem> itemsCollection) {
+            bool lRet = false;
+
+            foreach(OrderItem item in itemsCollection) {
+                if(item.Count > 0) {
+                    lRet = true;
+                    break;
+                }
+            }
+
+            return lRet;
         }
     }
 }

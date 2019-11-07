@@ -13,7 +13,7 @@
                 <Image Source="baseline_directions_run_black_48"
                        HeightRequest="60"
                        WidthRequest="60"/>
-                <Label Text="Go Get!" 
+                <Label Text="Go SnatchThat!" 
                        TextColor="Yellow" 
                        FontAttributes="Bold"
                        FontSize="Medium"

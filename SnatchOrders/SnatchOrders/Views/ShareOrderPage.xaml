@@ -26,6 +26,7 @@
                        VerticalOptions="CenterAndExpand" />
                 <Picker Grid.Row="0"
                         Grid.Column="1"
+                        IsEnabled="{Binding HasItems}"
                         ItemsSource="{Binding EmailCollection}"
                         ItemDisplayBinding="{Binding Email}"
                         SelectedItem="{Binding EmailTo}"
@@ -37,10 +38,11 @@
                        VerticalOptions="CenterAndExpand" />
                 <Picker Grid.Row="1"
                         Grid.Column="1"
+                        IsEnabled="{Binding HasItems}"
                         ItemsSource="{Binding EmailCollection}"
                         ItemDisplayBinding="{Binding Email}"
                         SelectedItem="{Binding EmailCc}"
-                        Title="(Προαιρετικό)" />
+                        Title="Προαιρετικό" />
                 <Label Grid.Row="2"
                        Grid.Column="0"
                        Style="{StaticResource LabelsDefault}"
@@ -48,10 +50,14 @@
                        VerticalOptions="CenterAndExpand" />
                 <Picker Grid.Row="2"
                         Grid.Column="1"
+                        IsEnabled="{Binding HasItems}"
                         ItemsSource="{Binding EmailCollection}"
                         ItemDisplayBinding="{Binding Email}"
                         SelectedItem="{Binding EmailBcc}"
-                        Title="(Προαιρετικό)" />
+                        Title="Προαιρετικό" />
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </Grid.GestureRecognizers>
             </Grid>
             <StackLayout Margin="0,15,0,0">
                 <Label Text="Θέμα email"

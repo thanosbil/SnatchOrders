@@ -17,8 +17,18 @@ namespace SnatchOrders.ViewModels
         public ICommand ShareOrderCommand { get; set; }
         public INavigation _Navigation { get; set; }
 
+        private bool _hasItems { get; set; }
+        public bool HasItems {
+            get { return _hasItems; }
+            set {
+                if (_hasItems != value) {
+                    _hasItems = value;
+                    OnPropertyChanged("HasItems");
+                }
+            }
+        }
         public Order _CurrentOrder { get; set; }
-        public List<EmailAccount> EmailList { get; set; }
+        private List<EmailAccount> EmailList { get; set; }
         public EmailAccount EmailTo { get; set; }
         public EmailAccount EmailCc { get; set; }
         public EmailAccount EmailBcc { get; set; }
@@ -35,7 +45,7 @@ namespace SnatchOrders.ViewModels
             ShareOrderCommand = new Command(ShareOrder);
         }
 
-        private async void ShareOrder() {
+        private void ShareOrder() {
             string message = string.Empty;
             List<OrderItem> OrderItems = _CurrentOrder.AllItems.OrderBy(i => i.CategoryId).ThenBy(d => d.Description).ToList();
 
@@ -65,7 +75,9 @@ namespace SnatchOrders.ViewModels
             foreach (OrderItem item in OrderItems) {
                 body += $"{item.Description}  x{item.Count}\r\n";                             
             }
-                        
+
+            body += "\r\n\r\n";
+            body += "Order list was generated automatically by Go SnatchThat! app.";
             List<string> rec = new List<string>();
             List<string> ccRec = new List<string>();
             List<string> bccRec = new List<string>();
@@ -87,6 +99,7 @@ namespace SnatchOrders.ViewModels
         }
 
         private async void FinishOrder() {
+            _CurrentOrder.DateSent = DateTime.Now;
             _CurrentOrder.OrderStatus = StatusOfOrder.Finished;
 
             try {
@@ -103,6 +116,9 @@ namespace SnatchOrders.ViewModels
                 EmailList = await App.Database.GetEmailAcountsAsync();
                 if(EmailList != null && EmailList.Count > 0) {
                     ConvertToObservable(EmailList);
+                    HasItems = true;
+                } else {
+                    HasItems = false;
                 }
 
             } catch (Exception ex) {
