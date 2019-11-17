@@ -2,10 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SnatchOrders.Views.CategoriesPage"
-             Title="Αποθηκευμένα είδη">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddCategoryCommand}" />
-    </ContentPage.ToolbarItems>
+             Title="Αποθηκευμένα είδη">    
     <ContentPage.Content>
         <StackLayout>
             <StackLayout Style="{StaticResource StackPadding}">
@@ -47,6 +44,45 @@
                         <Setter Property="IsVisible" Value="False" />
                     </DataTrigger>
                 </StackLayout.Triggers>
+            </StackLayout>
+            <StackLayout VerticalOptions="End" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackButtonPadding}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Row="0"
+                           Grid.Column="0"
+                           Source="baseline_add_white_48" 
+                           Style="{StaticResource ImageMedium}"/>
+                    <Button Grid.Row="0"
+                            Grid.Column="0"
+                            Command="{Binding AddCategoryCommand}"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"/>
+                    <BoxView Grid.Row="0"
+                             Grid.Column="1"
+                             BackgroundColor="White"/>
+                    <Image Grid.Row="0"
+                           Grid.Column="2"
+                           Source="baseline_done_white_48" 
+                           Style="{StaticResource ImageMedium}"/>
+                    <Button Grid.Row="0"
+                            Grid.Column="2"
+                            Command="{Binding DoneEditingCommand}"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"/>
+
+                </Grid>
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer  />
+                </StackLayout.GestureRecognizers>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

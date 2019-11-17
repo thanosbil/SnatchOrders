@@ -2,6 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SnatchOrders.Views.OrderPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Διαγραφή" Order="Secondary" Command="{Binding DeleteOrderCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="OrderItemsListView"
@@ -78,7 +81,7 @@
             <StackLayout VerticalOptions="End" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackButtonPadding}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="40" />                        
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -108,6 +111,7 @@
                             BackgroundColor="Transparent"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"/>
+                    
                 </Grid>
                 <!--<Label Text="Προσθήκη ειδών"  Style="{StaticResource LabelsToolbar}" HorizontalOptions="Center" VerticalOptions="Center"/>-->
                 <StackLayout.GestureRecognizers>

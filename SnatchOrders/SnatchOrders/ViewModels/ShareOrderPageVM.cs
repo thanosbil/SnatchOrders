@@ -77,7 +77,7 @@ namespace SnatchOrders.ViewModels
             }
 
             body += "\r\n\r\n";
-            body += "Order list was generated automatically by Go SnatchThat! app.";
+            body += "List was generated automatically by SnatchThat! app.";
             List<string> rec = new List<string>();
             List<string> ccRec = new List<string>();
             List<string> bccRec = new List<string>();

@@ -37,6 +37,7 @@ namespace SnatchOrders.ViewModels
         public ICommand AddCategoryCommand { get; set; }
         public ICommand GoToItemsPageCommand { get; set; }
         public ICommand DeleteCategoryCommand { get; set; }
+        public ICommand DoneEditingCommand { get; set; }
 
         private INavigation _navigation;
         private List<Category> ListOfCategories;
@@ -52,6 +53,8 @@ namespace SnatchOrders.ViewModels
             AddCategoryCommand = new Command(CreateNewCategory);
             GoToItemsPageCommand = new Command<Category>(GoToItemsPage);
             DeleteCategoryCommand = new Command<Category>(DeleteCategory);
+            DoneEditingCommand = new Command(DoneEditing);
+
             CategoriesCollection = new ObservableCollection<Category>();
             ListOfCategories = new List<Category>();
 
@@ -59,7 +62,7 @@ namespace SnatchOrders.ViewModels
                 RefreshCategories();
             });
         }
-
+        
         /// <summary>
         /// Από παραγγελία
         /// </summary>
@@ -73,12 +76,22 @@ namespace SnatchOrders.ViewModels
             AddCategoryCommand = new Command(CreateNewCategory);
             GoToItemsPageCommand = new Command<Category>(GoToItemsPage);
             DeleteCategoryCommand = new Command<Category>(DeleteCategory);
+            DoneEditingCommand = new Command(DoneEditing);
+
             CategoriesCollection = new ObservableCollection<Category>();
             ListOfCategories = new List<Category>();
 
             MessagingCenter.Subscribe<NewCategoryPopupPage>(this, "Added", (sender) => {
                 RefreshCategories();
             });
+        }
+
+        private async void DoneEditing() {
+            if (IsMenuAction) {
+                (App.Current.MainPage as MainPage).Detail = new NavigationPage(new OrdersPage());                                
+            } else {
+                await _navigation.PopAsync();
+            }            
         }
 
         private void RefreshCategories() {

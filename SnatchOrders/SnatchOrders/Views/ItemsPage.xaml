@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:SnatchOrders.Controls"
              x:Class="SnatchOrders.Views.ItemsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddItemCommand}" />
+        <!--<ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding AddItemCommand}" />-->
+        <ToolbarItem Text="Διαγραφή" Order="Secondary" Command="{Binding DeleteCategoryCommand}" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout x:Name="OuterStack">
@@ -30,12 +31,17 @@
                                            Style="{StaticResource LabelsDefault}">
                                         <Label.Triggers>
                                             <DataTrigger TargetType="Label"
-                                                         Binding="{Binding Source={x:Reference imgBtn}, Path=IsVisible}" Value="False">
+                                                         Binding="{Binding Source={x:Reference GridButtons}, Path=IsVisible}" Value="False">
                                                 <Setter Property="IsVisible" Value="False" />
                                             </DataTrigger>
                                         </Label.Triggers>
-                                    </Label>
-                                    <Grid Grid.Row="0" Grid.Column="2" VerticalOptions="Center" ColumnSpacing="10">
+                                    </Label>                                    
+                                    <Grid x:Name="GridButtons" 
+                                          Grid.Row="0" 
+                                          Grid.Column="2" 
+                                          VerticalOptions="Center" 
+                                          ColumnSpacing="10"
+                                          BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}" IsVisible="{Binding IsNotMenuAction}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="40" />
                                         </Grid.RowDefinitions>
@@ -43,14 +49,13 @@
                                             <ColumnDefinition Width="50" />
                                             <ColumnDefinition Width="50" />
                                         </Grid.ColumnDefinitions>
-                                        <ImageButton x:Name="imgBtn" Grid.Row="0" Grid.Column="0" Source="baseline_remove_black_48" Style="{StaticResource ImageButtonSmall}"
+                                        <ImageButton Grid.Row="0" Grid.Column="0" Source="baseline_remove_black_48" Style="{StaticResource ImageButtonSmall}"
                                                      BorderWidth="1" BorderColor="Gray" BackgroundColor="LightGray" Padding="5"
-                                                     BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}" IsVisible="{Binding IsNotMenuAction}"
                                                      Command="{Binding DecreaseCountCommand}" CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}"/>
                                         <ImageButton Grid.Row="0" Grid.Column="1" Source="baseline_add_black_48" Style="{StaticResource ImageButtonSmall}"
                                                      BorderWidth="1" BorderColor="Gray" BackgroundColor="LightGray" Padding="5"
                                                      BindingContext="{Binding Source={x:Reference ItemsListView}, Path=BindingContext}" IsVisible="{Binding IsNotMenuAction}"
-                                                     Command="{Binding IncreaseCountCommand}" CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}"/>
+                                                     Command="{Binding IncreaseCountCommand}" CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}"/>                                        
                                     </Grid>
                                 </Grid>
                             </StackLayout>
@@ -71,7 +76,7 @@
                     </DataTrigger>
                 </StackLayout.Triggers>
             </StackLayout>
-            <StackLayout VerticalOptions="EndAndExpand" 
+            <!--<StackLayout VerticalOptions="EndAndExpand" 
                          IsVisible="{Binding HasItemsAndIsNotMenuAction}" 
                          BackgroundColor="{StaticResource NavigationPrimary}" 
                          Style="{StaticResource StackPadding}">
@@ -80,6 +85,45 @@
                        HorizontalOptions="Center" VerticalOptions="Center"/>
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding AddItemsToOrderCommand}" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>-->
+            <StackLayout VerticalOptions="End" BackgroundColor="{StaticResource NavigationPrimary}" Style="{StaticResource StackButtonPadding}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="1" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Row="0"
+                           Grid.Column="0"
+                           Source="baseline_add_white_48" 
+                           Style="{StaticResource ImageMedium}"/>
+                    <Button Grid.Row="0"
+                            Grid.Column="0"
+                            Command="{Binding AddItemCommand}"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"/>
+                    <BoxView Grid.Row="0"
+                             Grid.Column="1"
+                             BackgroundColor="White"/>
+                    <Image Grid.Row="0"
+                           Grid.Column="2"
+                           Source="baseline_done_white_48" 
+                           Style="{StaticResource ImageMedium}"/>
+                    <Button Grid.Row="0"
+                            Grid.Column="2"
+                            Command="{Binding AddItemsToOrderCommand}"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"/>
+
+                </Grid>                
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer  />
                 </StackLayout.GestureRecognizers>
             </StackLayout>
         </StackLayout>        

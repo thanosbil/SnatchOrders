@@ -21,7 +21,7 @@ namespace SnatchOrders.Views
 
         private async void TapGestureRecognizer_Tapped(object sender, EventArgs e) {
             List<string> supportMail = new List<string> { "info.snatchthat@gmail.com" };
-            await MailHelper.SendEmail("Go SnatchThat! help", "", supportMail, new List<string>(), new List<string>());
+            await MailHelper.SendEmail("SnatchThat! help", "", supportMail, new List<string>(), new List<string>());
         }
     }
 }

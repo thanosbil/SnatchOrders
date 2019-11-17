@@ -20,7 +20,7 @@ namespace SnatchOrders.Views
 
 		public ItemsPage (Order currentOrder, Category currentCategory, bool isMenuAction){
 			InitializeComponent ();
-            itemsPageVM = new ItemsPageVM(Navigation, currentOrder, currentCategory.ID, isMenuAction);
+            itemsPageVM = new ItemsPageVM(Navigation, currentOrder, currentCategory, isMenuAction);
             BindingContext = itemsPageVM;
             Title = currentCategory.Description;
             CategoryId = currentCategory.ID;

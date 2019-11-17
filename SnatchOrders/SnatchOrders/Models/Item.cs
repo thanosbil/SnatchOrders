@@ -20,6 +20,7 @@ namespace SnatchOrders.Models
         /// Περιγραφή έίδους
         /// </summary>
         public string Description { get; set; }
+        public bool IsDeleted { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string propertyName = null) {

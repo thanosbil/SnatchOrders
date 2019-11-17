@@ -13,7 +13,7 @@
                 <Image Source="baseline_directions_run_black_48"
                        HeightRequest="60"
                        WidthRequest="60"/>
-                <Label Text="Go SnatchThat!" 
+                <Label Text="SnatchThat!" 
                        TextColor="Yellow" 
                        FontAttributes="Bold"
                        FontSize="Medium"
@@ -21,7 +21,9 @@
             </StackLayout>
         </StackLayout>
         <ListView x:Name="ListViewMenu"
-                    HasUnevenRows="True">
+                  ItemsSource="{Binding MenuItems}"
+                  ItemTapped="ListViewMenu_ItemTapped"
+                  HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

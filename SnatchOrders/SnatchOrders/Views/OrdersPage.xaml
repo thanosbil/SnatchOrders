@@ -2,14 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"      
              xmlns:enum="clr-namespace:SnatchOrders.Models"
-             x:Class="SnatchOrders.Views.OrdersPage">
-    <ContentPage.ToolbarItems>
+             x:Class="SnatchOrders.Views.OrdersPage"                          
+             Title="Παραγγελίες">
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Icon="baseline_add_white_48.png" Command="{Binding NewOrderCommand}" />
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
     <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand">
+        <AbsoluteLayout>
+            <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
+                         AbsoluteLayout.LayoutFlags="All">
             <ListView
-                x:Name="OrdersListView"
+                x:Name="OrdersListView"                
                 ItemsSource="{Binding Orders}"
                 IsVisible="{Binding HasItems}"
                 HasUnevenRows="True"
@@ -76,5 +79,11 @@
                 </StackLayout.Triggers>
             </StackLayout>
         </StackLayout>
+            <ImageButton Source="fab_add.png" 
+                         Command="{Binding NewOrderCommand}"
+                         BackgroundColor="Transparent"
+                         AbsoluteLayout.LayoutFlags="PositionProportional" 
+                         AbsoluteLayout.LayoutBounds=".96,.97,60,60" />
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

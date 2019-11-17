@@ -12,6 +12,7 @@ using Xamarin.Forms;
 namespace SnatchOrders.ViewModels
 {
     public class OrderPageVM : ViewModelBase {
+        public ICommand DeleteOrderCommand { get; set; }
         public ICommand GroupTappedCommand { get; set; }
         public ICommand DeleteOrderItemCommand { get; set; }
         public ICommand AddItemsToOrderCommand { get; set; }
@@ -38,6 +39,7 @@ namespace SnatchOrders.ViewModels
             OrderItemsCollection = new ObservableCollection<OrderItem>();
             GroupedOrderItemsCollection = new ObservableCollection<OrderItemGroup>();
 
+            DeleteOrderCommand = new Command(DeleteOrder);
             DeleteOrderItemCommand = new Command<OrderItem>(DeleteOrderItem);
             AddItemsToOrderCommand = new Command(AddItemsToOrder);
             GroupTappedCommand = new Command<OrderItemGroup>(GroupTapped);
@@ -45,7 +47,11 @@ namespace SnatchOrders.ViewModels
         }
 
         private async void DoneEditingOrder() {
-            await _Navigation.PushAsync(new ShareOrderPage(_CurrentOrder));
+            if (HasItems) {
+                await _Navigation.PushAsync(new ShareOrderPage(_CurrentOrder));
+            } else {
+                await App.Current.MainPage.DisplayAlert("Άδεια παραγγελία", "Προσθέστε κάποιο είδος στην παραγγελία για να συνεχίσετε", "OK");
+            }
         }
 
         private void GroupTapped(OrderItemGroup obj) {
@@ -64,6 +70,10 @@ namespace SnatchOrders.ViewModels
             await _Navigation.PushAsync(new CategoriesPage(_CurrentOrder));
         }
 
+        /// <summary>
+        /// Διαγράφει ένα είδος παραγγελίας
+        /// </summary>
+        /// <param name="obj"></param>
         private async void DeleteOrderItem(OrderItem obj) {
             bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", "Πρόκειται να διαγραφεί το είδος από την παραγγελία. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
             try {
@@ -77,6 +87,10 @@ namespace SnatchOrders.ViewModels
             await GetOrderItems();
         }
 
+        /// <summary>
+        /// Φέρνει από τη database τα είδη της παραγγελίας
+        /// </summary>
+        /// <returns></returns>
         internal async Task GetOrderItems() {
             try {
                 _CurrentOrder.AllItems = await App.Database.GetOrderItemsAsync(_CurrentOrder.ID);
@@ -93,7 +107,11 @@ namespace SnatchOrders.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Κατασκευάζει το grouped list
+        /// </summary>
+        /// <param name="dbItems"></param>
+        /// <returns></returns>
         private async Task GroupedCollectionBuilder(List<OrderItem> dbItems) {
             GroupedOrderItemsCollection.Clear();
 
@@ -127,6 +145,24 @@ namespace SnatchOrders.ViewModels
             OrderItemsCollection.Clear();
             foreach(OrderItem item in allItems) {
                 OrderItemsCollection.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Διαγράφει την παραγγελία
+        /// </summary>
+        /// <param name="obj"></param>
+        private async void DeleteOrder() {
+            bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", "Πρόκειται να διαγραφεί η παραγγελία. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
+
+            if (result) {
+                try {                    
+                    await App.Database.DeleteOrderAsync(_CurrentOrder);
+                    await _Navigation.PopAsync();
+                } catch (Exception ex) {
+                    await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά τη διαγραφή της παραγγελίας"
+                   + Environment.NewLine + ex, "OK");
+                }
             }
         }
     }

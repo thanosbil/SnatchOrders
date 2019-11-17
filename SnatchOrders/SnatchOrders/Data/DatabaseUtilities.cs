@@ -73,7 +73,7 @@ namespace SnatchOrders.Data
         /// <returns></returns>
         public Task<List<Category>> GetCategoriesAsync()
         {
-            return database.Table<Category>().OrderBy(i => i.Description).ToListAsync();
+            return database.Table<Category>().Where(i => i.IsDeleted == false).OrderBy(i => i.Description).ToListAsync();
         }
 
         public Task<Category> GetCategoryAsync(int id) {
@@ -102,10 +102,17 @@ namespace SnatchOrders.Data
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public Task<int> DeleteCategoryAsync(Category item)
+        public async Task<int> DeleteCategoryAsync(Category category)
         {
-            int x = database.Table<Item>().DeleteAsync(i => i.CategoryId == item.ID).Result;
-            return database.DeleteAsync(item);
+            //int x = database.Table<Item>().DeleteAsync(i => i.CategoryId == item.ID).Result;
+            List<Item> itemsList = await GetItemsAsync(category.ID);
+            foreach (Item item in itemsList) {
+                item.IsDeleted = true;
+                await database.UpdateAsync(item);
+            }
+
+            category.IsDeleted = true;
+            return await database.UpdateAsync(category);
         }
 
         #endregion Category
@@ -122,7 +129,7 @@ namespace SnatchOrders.Data
         /// <returns></returns>
         public Task<List<Item>> GetItemsAsync(int ItemCategoryID)
         {
-            return database.Table<Item>().Where(i => i.CategoryId == ItemCategoryID).OrderBy(i => i.Description).ToListAsync();
+            return database.Table<Item>().Where(i => i.CategoryId == ItemCategoryID && i.IsDeleted == false).OrderBy(i => i.Description).ToListAsync();
         }
 
         /// <summary>
@@ -149,7 +156,9 @@ namespace SnatchOrders.Data
         /// <returns></returns>
         public Task<int> DeleteItemAsync(Item item)
         {
-            return database.DeleteAsync(item);
+            //return database.DeleteAsync(item);
+            item.IsDeleted = true;
+            return database.UpdateAsync(item);
         }
 
         #endregion Item

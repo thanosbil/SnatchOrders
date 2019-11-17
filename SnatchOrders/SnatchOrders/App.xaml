@@ -30,6 +30,14 @@
                 <Setter Property="TextColor" Value="White" />
                 <Setter Property="FontSize" Value="Medium"/>
             </Style>
+            <Style x:Key="LabelsBtnFunc" TargetType="Label">
+                <Setter Property="TextColor" Value="#2962ff" />
+                <Setter Property="FontSize" Value="Medium"/>
+            </Style>
+            <Style x:Key="LabelsButtonText" TargetType="Label">
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
             <!--StackLayouts-->
             <Style x:Key="StackPadding" TargetType="StackLayout">
                 <Setter Property="Padding" Value="15" />

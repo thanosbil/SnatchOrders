@@ -16,6 +16,10 @@ namespace SnatchOrders.Models
         /// </summary>
         public string Description { get; set; }
         /// <summary>
+        /// Λογικό delete
+        /// </summary>
+        public bool IsDeleted { get; set; }
+        /// <summary>
         /// Αριθμός ειδών στην κατηγορία
         /// </summary>
         [Ignore]

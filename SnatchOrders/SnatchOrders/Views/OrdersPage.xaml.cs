@@ -19,8 +19,7 @@ namespace SnatchOrders.Views
 		public OrdersPage (){
 			InitializeComponent ();
             ordersVM = new OrdersVM(Navigation);
-            BindingContext = ordersVM;
-            Title = "Παραγγελίες";
+            BindingContext = ordersVM;            
 		}
 
         protected override async void OnAppearing(){
