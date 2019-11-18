@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Rg.Plugins.Popup.Services;
 
 namespace SnatchOrders.Droid
 {
@@ -28,6 +29,17 @@ namespace SnatchOrders.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public override async void OnBackPressed() {
+            //base.OnBackPressed();
+
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed)) {
+                // Do something if there are some pages in the `PopupStack`
+                await PopupNavigation.Instance.PopAsync();
+            } else {
+                // Do something if there are not any pages in the `PopupStack`
+            }
         }
     }
 }
