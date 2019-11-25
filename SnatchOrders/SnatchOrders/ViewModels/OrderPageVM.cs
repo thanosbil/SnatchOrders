@@ -153,16 +153,20 @@ namespace SnatchOrders.ViewModels
         /// </summary>
         /// <param name="obj"></param>
         private async void DeleteOrder() {
-            bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", "Πρόκειται να διαγραφεί η παραγγελία. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
+            if (_CurrentOrder.ID > 0) {
+                bool result = await App.Current.MainPage.DisplayAlert("Διαγραφή", "Πρόκειται να διαγραφεί η παραγγελία. Θέλετε να συνεχίσετε;", "OK", "ΑΚΥΡΟ");
 
-            if (result) {
-                try {                    
-                    await App.Database.DeleteOrderAsync(_CurrentOrder);
-                    await _Navigation.PopAsync();
-                } catch (Exception ex) {
-                    await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά τη διαγραφή της παραγγελίας"
-                   + Environment.NewLine + ex, "OK");
+                if (result) {
+                    try {
+                        await App.Database.DeleteOrderAsync(_CurrentOrder);
+                        await _Navigation.PopAsync();
+                    } catch (Exception ex) {
+                        await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά τη διαγραφή της παραγγελίας"
+                       + Environment.NewLine + ex, "OK");
+                    }
                 }
+            } else {
+                await _Navigation.PopAsync();
             }
         }
     }

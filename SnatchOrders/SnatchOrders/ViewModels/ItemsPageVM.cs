@@ -39,7 +39,14 @@ namespace SnatchOrders.ViewModels
         private Category CurrentCategory { get; set; }        
         public Order CurrentOrder { get; set; }
         public List<Item> DbItems { get; set; }
-        public ObservableCollection<OrderItem> ItemsCollection { get; set; }
+        private ObservableCollection<OrderItem> _itemsCollection { get; set; }
+        public ObservableCollection<OrderItem> ItemsCollection {
+            get { return _itemsCollection; }
+            set {
+                _itemsCollection = value;
+                OnPropertyChanged("ItemsCollection");
+            }
+        }
         
         public ItemsPageVM(INavigation navigation, Order currentOrder, Category currentCategory, bool isMenuAction) {
             _Navigation = navigation;
@@ -56,13 +63,21 @@ namespace SnatchOrders.ViewModels
             DeleteCategoryCommand = new Command(DeleteCategory);
             AddItemsToOrderCommand = new Command(AddItemsToOrder);
 
-            MessagingCenter.Subscribe<NewItemPopupPage>(this, "Added", (sender) => {
-                RefreshItems();
+            MessagingCenter.Subscribe<NewItemPopupPage, Item>(this, "Added", (sender, addedItem) => {
+                GetAddedItem(addedItem);
             });
         }
 
-        private async void RefreshItems() {
-            await GetCategoryItems(CurrentCategory.ID);
+        private void GetAddedItem(Item added) {
+            OrderItem newItem = new OrderItem();
+            newItem.ItemId = added.ID;
+            newItem.CategoryId = added.CategoryId;
+            newItem.Description = added.Description;
+
+            DbItems.Add(added);
+            ItemsCollection.Add(newItem);
+            ItemsCollection = new ObservableCollection<OrderItem>(ItemsCollection.OrderBy(i => i.Description));
+            HasItems = true;
         }
 
         /// <summary>
@@ -71,8 +86,16 @@ namespace SnatchOrders.ViewModels
         private async void AddItemsToOrder() {
             bool hasAddedItems = CheckHasItems(ItemsCollection);
             bool result = false;
+            bool saveOrderOk = false;
 
             if (IsNotMenuAction) {
+                if(CurrentOrder.ID == 0) {
+                    saveOrderOk = await SaveOrder();
+
+                    if (!saveOrderOk) {
+                        return;
+                    }
+                }
                 if (hasAddedItems)
                     result = await App.Current.MainPage.DisplayAlert("Επιβεβαίωση", "Εισαγωγή των ειδών στην παραγγελία;", "OK", "ΑΚΥΡΟ");
                 else
@@ -82,8 +105,7 @@ namespace SnatchOrders.ViewModels
                     try {
                         foreach (OrderItem item in ItemsCollection) {
                             if (item.Count > 0) {
-                                item.OrderId = CurrentOrder.ID;
-                                item.CategoryId = CurrentCategory.ID;
+                                item.OrderId = CurrentOrder.ID;                                
                                 CurrentOrder.AllItems.Add(item);
                                 await App.Database.SaveOrderItemAsync(item);
                             }
@@ -103,6 +125,23 @@ namespace SnatchOrders.ViewModels
             } else {
                 await _Navigation.PopAsync();
             }
+        }
+
+        private async Task<bool> SaveOrder() {
+            bool lRet = false;
+            int affected = 0;
+            try {
+                affected = await App.Database.SaveOrderAsync(CurrentOrder);
+
+                if (affected > 0)
+                    lRet = true;
+
+            } catch (Exception ex) {
+                await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση της παραγγελίας"
+                    + Environment.NewLine + ex, "OK");
+            }
+
+            return lRet;
         }
 
         /// <summary>
@@ -195,10 +234,23 @@ namespace SnatchOrders.ViewModels
         }
 
         private OrderItem GetOrderItem(Item categoryItem) {
-            OrderItem temp = new OrderItem();
+            OrderItem temp = null;
 
-            temp.ItemId = categoryItem.ID;
-            temp.Description = categoryItem.Description;
+            if (IsMenuAction) {
+                temp = new OrderItem();
+                temp.ItemId = categoryItem.ID;
+                temp.CategoryId = categoryItem.CategoryId;
+                temp.Description = categoryItem.Description;                
+            } else {
+                if (CurrentOrder.AllItems.Exists(x => x.ItemId == categoryItem.ID)) {
+                    temp = CurrentOrder.AllItems.FirstOrDefault(x => x.ItemId == categoryItem.ID);
+                } else {
+                    temp = new OrderItem();
+                    temp.ItemId = categoryItem.ID;
+                    temp.CategoryId = categoryItem.CategoryId;
+                    temp.Description = categoryItem.Description;
+                }
+            }                  
 
             return temp;
         }

@@ -16,13 +16,25 @@ namespace SnatchOrders.Views
 	{
         OrderPageVM orderPageVM;
 
-		public OrderPage (Order currentOrder)
+		public OrderPage ()
 		{
 			InitializeComponent ();
+            Order currentOrder = new Order();
+            currentOrder.DateCreated = DateTime.Now;
+            currentOrder.OrderStatus = StatusOfOrder.New;
+
             orderPageVM = new OrderPageVM(Navigation, currentOrder);
             BindingContext = orderPageVM;
             Title = currentOrder.DateCreated.ToString("dd/MM/yy - HH:mm");
 		}
+
+        public OrderPage(Order currentOrder) {
+            InitializeComponent();
+            
+            orderPageVM = new OrderPageVM(Navigation, currentOrder);
+            BindingContext = orderPageVM;
+            Title = currentOrder.DateCreated.ToString("dd/MM/yy - HH:mm");
+        }
 
         protected override async void OnAppearing() {
             base.OnAppearing();

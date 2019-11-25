@@ -27,7 +27,7 @@ namespace SnatchOrders.Views.PopupViews
 
                 try {
                     await App.Database.SaveItemAsync(newItem);
-                    MessagingCenter.Send(this, "Added");
+                    MessagingCenter.Send<NewItemPopupPage, Item>(this, "Added", newItem);
                 } catch (Exception ex) {
                     await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση του είδους"
                         + Environment.NewLine + ex, "OK");

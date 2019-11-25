@@ -82,17 +82,17 @@ namespace SnatchOrders.ViewModels
         }
 
         private async void MakeNewOrder(){
-            Order current = new Order();
-            current.DateCreated = DateTime.Now;
-            current.OrderStatus = StatusOfOrder.New;
+            //Order current = new Order();
+            //current.DateCreated = DateTime.Now;
+            //current.OrderStatus = StatusOfOrder.New;
 
-            try {
-                await App.Database.SaveOrderAsync(current);
-            }catch(Exception ex) {
-                await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση της παραγγελίας"
-                    + Environment.NewLine + ex,"OK");
-            }
-            await _navigation.PushAsync(new OrderPage(current));
+            //try {
+            //    await App.Database.SaveOrderAsync(current);
+            //}catch(Exception ex) {
+            //    await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αποθήκευση της παραγγελίας"
+            //        + Environment.NewLine + ex,"OK");
+            //}
+            await _navigation.PushAsync(new OrderPage());
         }
     }
 }
