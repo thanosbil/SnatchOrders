@@ -95,12 +95,21 @@ namespace SnatchOrders.ViewModels
             }
 
             await MailHelper.SendEmail(Preferences.Get("MailSubject", ""), body, rec, ccRec, bccRec);
-            FinishOrder();
+            FinishOrder(rec, ccRec, bccRec);
         }
 
-        private async void FinishOrder() {
+        private async void FinishOrder(List<string> rec, List<string> ccRec, List<string> bccRec) {
             _CurrentOrder.DateSent = DateTime.Now;
             _CurrentOrder.OrderStatus = StatusOfOrder.Finished;
+
+            if (rec.Count > 0)
+                _CurrentOrder.OrderRecipient = string.Join(";", rec);
+            
+            if (ccRec.Count > 0)
+                _CurrentOrder.CcRecipient = string.Join(";", ccRec);
+
+            if (bccRec.Count > 0)
+                _CurrentOrder.BccRecipient = string.Join(";", bccRec);
 
             try {
                 await App.Database.SaveOrderAsync(_CurrentOrder);

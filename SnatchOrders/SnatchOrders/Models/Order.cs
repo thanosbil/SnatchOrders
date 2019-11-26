@@ -46,6 +46,8 @@ namespace SnatchOrders.Models
         /// Σε ποιον στάλθηκε η παραγγελία
         /// </summary>
         public string OrderRecipient { get; set; }
+        public string CcRecipient { get; set; }
+        public string BccRecipient { get; set; }
 
         public Order() {
             AllItems = new List<OrderItem>();
