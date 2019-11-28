@@ -1,12 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SnatchOrders.Views.OrderPage">
+             x:Class="SnatchOrders.Views.OrderPage"
+             Title="Είδη παραγγελίας">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Διαγραφή" Order="Secondary" Command="{Binding DeleteOrderCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
+            <!--<StackLayout Style="{StaticResource StackPadding}">
+                <Label x:Name="lblDate" Style="{StaticResource LabelsEmphasized}"/>
+            </StackLayout>-->
             <ListView x:Name="OrderItemsListView"
                       ItemsSource="{Binding GroupedOrderItemsCollection}"
                       IsVisible="{Binding HasItems}"
