@@ -45,7 +45,7 @@ namespace SnatchOrders.ViewModels
             ShareOrderCommand = new Command(ShareOrder);
         }
 
-        private void ShareOrder() {
+        private async void ShareOrder() {
             string message = string.Empty;
             List<OrderItem> OrderItems = _CurrentOrder.AllItems.OrderBy(i => i.CategoryId).ThenBy(d => d.Description).ToList();
 
@@ -55,10 +55,10 @@ namespace SnatchOrders.ViewModels
                     message += "\r\n";
             }
 
-            DependencyService.Get<IShare>().ShareMessageToApps(message);
-            //await Share.RequestAsync(new ShareTextRequest {
-            //    Text = message
-            //});
+            //DependencyService.Get<IShare>().ShareMessageToApps(message);
+            await Share.RequestAsync(new ShareTextRequest {
+                Text = message
+            });
         }
 
         //private string BuildFormattedMessage(OrderItem item, int lineLength) {
