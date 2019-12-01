@@ -5,7 +5,8 @@
              Title="Αποθηκευμένα είδη">    
     <ContentPage.Content>
         <StackLayout>
-            <StackLayout Style="{StaticResource StackPadding}">
+            <StackLayout Style="{StaticResource StackPadding}"
+                         IsVisible="{Binding HasItems}">
                 <Label Text="Κατηγορίες" Style="{StaticResource LabelsEmphasized}"/>
             </StackLayout>
             <ListView
