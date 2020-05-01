@@ -19,5 +19,16 @@ namespace SnatchOrders.Views
             reportsPageViewModel = new ReportsPageViewModel(Navigation);
             BindingContext = reportsPageViewModel;
         }
+
+        protected override void OnAppearing() {
+            base.OnAppearing();
+
+            reportsPageViewModel.GetSavedCategories();
+            reportsPageViewModel.GetSavedItems();
+        }
+
+        private void Picker_SelectedIndexChanged(object sender, EventArgs e) {
+            reportsPageViewModel.GetSavedItems();
+        }
     }
 }

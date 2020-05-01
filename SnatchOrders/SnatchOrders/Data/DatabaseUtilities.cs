@@ -127,9 +127,12 @@ namespace SnatchOrders.Data
         /// Φέρνει όλα τα προϊόντα
         /// </summary>
         /// <returns></returns>
-        public Task<List<Item>> GetItemsAsync(int ItemCategoryID)
-        {
+        public Task<List<Item>> GetItemsAsync(int ItemCategoryID) {
             return database.Table<Item>().Where(i => i.CategoryId == ItemCategoryID && i.IsDeleted == false).OrderBy(i => i.Description).ToListAsync();
+        }
+
+        public Task<List<Item>> GetAllItemsAsync() {
+            return database.Table<Item>().Where(i => i.IsDeleted == false).OrderBy(i => i.CategoryId).ThenBy(i => i.Description).ToListAsync();
         }
 
         /// <summary>

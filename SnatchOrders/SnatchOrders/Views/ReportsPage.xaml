@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="SnatchOrders.Views.ReportsPage"
+             x:Class="SnatchOrders.Views.ReportsPage"            
              Title="Αναφορές">
     <ContentPage.Content>
         <StackLayout Style="{StaticResource StackPadding}">
@@ -13,7 +13,6 @@
 
             <Grid Margin="0,15,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -42,7 +41,7 @@
                             Grid.Column="0"
                             Margin="15,0,0,0"/>
 
-                <StackLayout Grid.Row="4"
+                <!--<StackLayout Grid.Row="4"
                              Grid.Column="0"
                              Orientation="Horizontal"
                              Margin="0,10,0,0">
@@ -53,22 +52,28 @@
                     <Switch VerticalOptions="Center"
                             Margin="5,0,0,0"/>
                     
-                </StackLayout>
+                </StackLayout>-->
 
-                <Picker Grid.Row="5"
+                <Picker Grid.Row="4"
                         Grid.Column="0"
                         Margin="0,10,0,0"
-                        Title="Κατηγορία"/>
+                        Title="Κατηγορία"
+                        ItemsSource="{Binding CategoriesCollection}"
+                        ItemDisplayBinding="{Binding Description}"
+                        SelectedItem="{Binding SelectedCategory}"
+                        SelectedIndexChanged="Picker_SelectedIndexChanged"/>
 
-                <Picker Grid.Row="6"
+                <Picker Grid.Row="5"
                         Grid.Column="0" 
-                        Title="Είδος"/>
+                        Title="Είδος"
+                        ItemsSource="{Binding ItemsCollection}"
+                        ItemDisplayBinding="{Binding Description}"/>
 
             </Grid>
 
             <Button Text="Αναζήτηση" 
                     Style="{StaticResource ButtonDefault}"
-                    Margin="0,10,0,0"/>
+                    Margin="0,20,0,0"/>
 
         </StackLayout>
     </ContentPage.Content>

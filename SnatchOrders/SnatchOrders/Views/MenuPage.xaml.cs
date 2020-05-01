@@ -50,6 +50,7 @@ namespace SnatchOrders.Views
                 new HomeMenuItem {Id = MenuItemType.Home, Title="Αρχική" },
                 new HomeMenuItem {Id = MenuItemType.MailSettings, Title="Διευθύνσεις email" },
                 new HomeMenuItem {Id = MenuItemType.Items, Title="Αποθηκευμένα είδη" },
+                new HomeMenuItem {Id = MenuItemType.Reports, Title="Αναφορές" },
                 new HomeMenuItem {Id = MenuItemType.About, Title="Σχετικά με την εφαρμογή" }
                 };
             }
