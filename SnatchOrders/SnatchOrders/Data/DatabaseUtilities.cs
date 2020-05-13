@@ -176,6 +176,18 @@ namespace SnatchOrders.Data
             return database.Table<OrderItem>().Where(i => i.OrderId == OrderId).OrderBy(i => i.Description).ToListAsync();
         }
 
+        public Task<List<OrderItem>> GetOrderItemsForReportAsync(int itemId, int categoryId) {
+            List<OrderItem> itemsList = new List<OrderItem>();
+
+            if(itemId != 0) {
+                return database.Table<OrderItem>().Where(i => i.ItemId == itemId).OrderBy(i => i.Description).ToListAsync();
+            }else if (categoryId != 0) {
+                return database.Table<OrderItem>().Where(i => i.CategoryId == categoryId).OrderBy(i => i.Description).ToListAsync();
+            }
+
+            return database.Table<OrderItem>().OrderBy(i => i.CategoryId).ThenBy(i => i.Description).ToListAsync();
+        }
+
         /// <summary>
         /// Αποθηκεύει ένα είδος της παραγγελίας
         /// </summary>

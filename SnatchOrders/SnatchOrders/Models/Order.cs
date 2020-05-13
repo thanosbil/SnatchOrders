@@ -9,7 +9,9 @@ namespace SnatchOrders.Models
         None = 0,
         New = 1,
         InProgress = 2,
-        Finished = 3
+        Finished = 3,
+        SentViaMail = 4,
+        SentOther = 5
     }
 
     /// <summary>

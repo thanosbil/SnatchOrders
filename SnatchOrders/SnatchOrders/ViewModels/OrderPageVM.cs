@@ -62,8 +62,7 @@ namespace SnatchOrders.ViewModels
                 foreach(OrderItem item in obj.BackUpList) {
                     obj.Add(item);
                 }
-            }
-            
+            }            
         }
 
         private async void AddItemsToOrder() {

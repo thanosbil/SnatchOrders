@@ -18,7 +18,16 @@ namespace SnatchOrders.Models
         /// Id παραγγελίας
         /// </summary>
         public int OrderId { get; set; }
-        public string Description { get; set; }
+        private string _description { get; set; }
+        public string Description {
+            get { return _description; } 
+            set {
+                if(_description != value) {
+                    _description = value;
+                    OnPropertyChanged("Description");
+                }
+            } 
+        }
         private int _Count { get; set; }
         public int Count {
             get { return _Count; }

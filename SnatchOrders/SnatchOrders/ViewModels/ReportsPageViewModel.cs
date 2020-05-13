@@ -1,5 +1,6 @@
 ﻿using Rg.Plugins.Popup.Extensions;
 using SnatchOrders.Models;
+using SnatchOrders.Views;
 using SnatchOrders.Views.PopupViews;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,45 @@ using Xamarin.Forms;
 namespace SnatchOrders.ViewModels
 {
     public class ReportsPageViewModel : ViewModelBase {
-        public ICommand OpenFilterPopupCommand { get; set; }
+        public ICommand RadioButtonTappedCommand { get; set; }
+        public ICommand SearchForReportResultsCommand { get; set; }
+        public bool _isEmail { get; set; }
+        public bool IsEmail {
+            get { return _isEmail; } 
+            set {
+                if(_isEmail != value) {
+                    _isEmail = value;
+                    OnPropertyChanged("IsEmail");
+                }
+            }
+        }
+        public bool _isOther { get; set; }
+        public bool IsOther {
+            get { return _isOther; }
+            set {
+                if (_isOther != value) {
+                    _isOther = value;
+                    OnPropertyChanged("IsOther");
+                }
+            }
+        }
+        public bool _isAllSent { get; set; }
+        public bool IsAllSent {
+            get { return _isAllSent; }
+            set {
+                if (_isAllSent != value) {
+                    _isAllSent = value;
+                    OnPropertyChanged("IsAllSent");
+                }
+            }
+        }
         public INavigation _navigation { get; set; }
+        public DateTime DateFrom { get; set; }
+        public DateTime DateTo { get; set; }
         public List<Category> ListOfCategories { get; set; }
         public ObservableCollection<Category> CategoriesCollection { get; set; }
         public Category SelectedCategory { get; set; }
+        public Item SelectedItem { get; set; }
         public List<Item> ListOfItems { get; set; }
         public ObservableCollection<Item> ItemsCollection { get; set; }
         private bool _hasItems { get; set; }
@@ -35,8 +70,53 @@ namespace SnatchOrders.ViewModels
         /// <param name="navigation"></param>
         public ReportsPageViewModel(INavigation navigation) {
             _navigation = navigation;
+
+            SearchForReportResultsCommand = new Command(SearchForReportResults);
+            RadioButtonTappedCommand = new Command<StatusOfOrder>(RadioButtonTapped);
+
             CategoriesCollection = new ObservableCollection<Category>();
             ItemsCollection = new ObservableCollection<Item>();
+            DateFrom = DateTime.Today;
+            DateTo = DateTime.Today;
+        }
+
+        private void RadioButtonTapped(StatusOfOrder status) {
+
+            switch (status){
+                case StatusOfOrder.Finished:
+                    IsAllSent = true;
+                    IsEmail = false;
+                    IsOther = false;
+                    break;
+                
+                case StatusOfOrder.SentViaMail:
+                    IsEmail = true;
+                    IsAllSent = false;
+                    IsOther = false;
+                    break;
+
+                case StatusOfOrder.SentOther:
+                    IsOther= true;
+                    IsAllSent = false;
+                    IsEmail = false; 
+                    break;
+            }
+        }
+
+        private void SearchForReportResults() {
+            ReportCriteria criteria = new ReportCriteria();
+
+            if(SelectedItem != null) {
+                criteria.ItemId = SelectedItem.ID;
+            }
+            else if(SelectedCategory != null) {
+                criteria.CategoryId = SelectedCategory.ID;
+            }
+
+            criteria.DateFrom = DateFrom;
+            criteria.DateTo = DateTo;
+
+            _navigation.PushAsync(new ReportResultsPage(criteria));
         }
 
         public async void GetSavedCategories() {

@@ -4,77 +4,209 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="SnatchOrders.Views.ReportsPage"            
+             x:Class="SnatchOrders.Views.ReportsPage"   
+             xmlns:local="clr-namespace:SnatchOrders.Models"
              Title="Αναφορές">
     <ContentPage.Content>
-        <StackLayout Style="{StaticResource StackPadding}">
-            <Label Text="Κριτήρια" 
+        <ScrollView>
+            <StackLayout Style="{StaticResource StackPadding}">
+                <Label Text="Κριτήρια" 
                    Style="{StaticResource LabelsEmphasized}"/>
 
-            <Grid Margin="0,15,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                
-                <Label Grid.Row="0"
+                <Grid Margin="0,15,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0"
+                      Grid.Column="0" HeightRequest="100">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.ColumnSpan="3"
+                           Text="Αναζήτηση σε παραγγελίες που εστάλησαν με:"
+                           Style="{StaticResource LabelsDefault}" />
+
+                        <BoxView Grid.Row="1"
+                             Grid.ColumnSpan="3"
+                             BackgroundColor="#bbdefb" 
+                             VerticalOptions="Fill"
+                             HorizontalOptions="Fill"
+                             CornerRadius="5"/>
+
+                        <StackLayout Grid.Row="1"
+                                 Grid.Column="0"
+                                 Padding="10,10,0,10"
+                                 Orientation="Vertical">
+
+                            <Image WidthRequest="15"
+                               HeightRequest="15"
+                               HorizontalOptions="Center" >
+
+                                <Image.Triggers>
+                                    <DataTrigger TargetType="Image"
+                                             Binding="{Binding IsEmail}" Value="True">
+                                        <Setter Property="Source" Value="baseline_radio_button_checked_black_48.png" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image"
+                                             Binding="{Binding IsEmail}" Value="False">
+                                        <Setter Property="Source" Value="baseline_radio_button_unchecked_black_48.png" />
+                                    </DataTrigger>
+                                </Image.Triggers>
+
+                            </Image>
+
+                            <Label HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"
+                               Text="Email"
+                               Style="{StaticResource LabelsSmall}" />
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RadioButtonTappedCommand}" CommandParameter="{x:Static local:StatusOfOrder.SentViaMail}" />
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+
+                        <!--<BoxView Grid.Row="1"
+                             Grid.Column="1"
+                             BackgroundColor="Black"
+                             WidthRequest="1"/>-->
+
+                        <StackLayout Grid.Row="1"
+                                 Grid.Column="1"
+                                 Padding="0,10,0,10"
+                                 Orientation="Vertical">
+
+                            <Image WidthRequest="15"
+                               HeightRequest="15"
+                               HorizontalOptions="Center" >
+
+                                <Image.Triggers>
+                                    <DataTrigger TargetType="Image"
+                                             Binding="{Binding IsOther}" Value="True">
+                                        <Setter Property="Source" Value="baseline_radio_button_checked_black_48.png" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image"
+                                             Binding="{Binding IsOther}" Value="False">
+                                        <Setter Property="Source" Value="baseline_radio_button_unchecked_black_48.png" />
+                                    </DataTrigger>
+                                </Image.Triggers>
+
+                            </Image>
+
+                            <Label HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"
+                               Text="Άλλη μέθοδο"
+                               Style="{StaticResource LabelsSmall}" />
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RadioButtonTappedCommand}" CommandParameter="{x:Static local:StatusOfOrder.SentOther}" />
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+
+                        <!--<BoxView Grid.Row="1"
+                             Grid.Column="3"
+                             BackgroundColor="Black"
+                             WidthRequest="1"/>-->
+
+
+                        <StackLayout Grid.Row="1"
+                                 Grid.Column="2"
+                                 Padding="0,10,10,10"
+                                 Orientation="Vertical">
+
+                            <Image WidthRequest="15"
+                               HeightRequest="15"
+                               HorizontalOptions="Center" >
+
+                                <Image.Triggers>
+                                    <DataTrigger TargetType="Image"
+                                             Binding="{Binding IsAllSent}" Value="True">
+                                        <Setter Property="Source" Value="baseline_radio_button_checked_black_48" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Image"
+                                             Binding="{Binding IsAllSent}" Value="False">
+                                        <Setter Property="Source" Value="baseline_radio_button_unchecked_black_48.png" />
+                                    </DataTrigger>
+                                </Image.Triggers>
+
+                            </Image>
+
+                            <Label HorizontalTextAlignment="Center"
+                               VerticalOptions="Center"
+                               Text="Όλα"
+                               Style="{StaticResource LabelsSmall}" />
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RadioButtonTappedCommand}" CommandParameter="{x:Static local:StatusOfOrder.Finished}" />
+                            </StackLayout.GestureRecognizers>
+
+                        </StackLayout>
+
+
+                    </Grid>
+
+                    <Label Grid.Row="1"
                        Grid.Column="0"
                        Style="{StaticResource LabelsDefault}"
                        Text="Ημ/νία από:"/>
-                
-                <DatePicker Grid.Row="1"
-                            Grid.Column="0"
-                            Margin="15,0,0,0"/>
 
-                <Label Grid.Row="2"
+                    <DatePicker Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="15,0,0,0"
+                            Date="{Binding DateFrom}"/>
+
+                    <Label Grid.Row="3"
                        Grid.Column="0"
                        Style="{StaticResource LabelsDefault}"
                        Text="Έως:"/>
 
-                <DatePicker Grid.Row="3"
+                    <DatePicker Grid.Row="4"
                             Grid.Column="0"
-                            Margin="15,0,0,0"/>
+                            Margin="15,0,0,0"
+                            Date="{Binding DateTo}"/>
 
-                <!--<StackLayout Grid.Row="4"
-                             Grid.Column="0"
-                             Orientation="Horizontal"
-                             Margin="0,10,0,0">
-                    
-                    <Label Style="{StaticResource LabelsDefault}" 
-                           VerticalOptions="Center"
-                           Text="Ψάχνω συγκεκριμένο είδος"/>
-                    <Switch VerticalOptions="Center"
-                            Margin="5,0,0,0"/>
-                    
-                </StackLayout>-->
-
-                <Picker Grid.Row="4"
+                    <Picker Grid.Row="5"
                         Grid.Column="0"
-                        Margin="0,10,0,0"
+                        
                         Title="Κατηγορία"
                         ItemsSource="{Binding CategoriesCollection}"
                         ItemDisplayBinding="{Binding Description}"
                         SelectedItem="{Binding SelectedCategory}"
                         SelectedIndexChanged="Picker_SelectedIndexChanged"/>
 
-                <Picker Grid.Row="5"
+                    <Picker Grid.Row="6"
                         Grid.Column="0" 
                         Title="Είδος"
                         ItemsSource="{Binding ItemsCollection}"
-                        ItemDisplayBinding="{Binding Description}"/>
+                        ItemDisplayBinding="{Binding Description}"
+                        SelectedItem="{Binding SelectedItem}"/>
 
-            </Grid>
+                </Grid>
 
-            <Button Text="Αναζήτηση" 
+                <Button Text="Αναζήτηση" 
                     Style="{StaticResource ButtonDefault}"
-                    Margin="0,20,0,0"/>
+                    Margin="0,20,0,0"
+                    Command="{Binding SearchForReportResultsCommand}"/>
 
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
