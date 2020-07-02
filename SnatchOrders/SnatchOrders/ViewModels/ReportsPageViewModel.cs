@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SnatchOrders.ViewModels
@@ -78,29 +79,44 @@ namespace SnatchOrders.ViewModels
             ItemsCollection = new ObservableCollection<Item>();
             DateFrom = DateTime.Today;
             DateTo = DateTime.Today;
+            PageInit();
+        }
+
+        private void PageInit() {
+            int orderCrit = Preferences.Get("ReportSetting", 0);
+
+            if (orderCrit > 0)
+                SetRadioButtonValue((StatusOfOrder)orderCrit);
+            else
+                SetRadioButtonValue(StatusOfOrder.SentViaMail);
+        }
+
+        private void SetRadioButtonValue(StatusOfOrder status) {
+            switch (status) {
+                case StatusOfOrder.Finished:
+                IsAllSent = true;
+                IsEmail = false;
+                IsOther = false;
+                break;
+
+                case StatusOfOrder.SentViaMail:
+                IsEmail = true;
+                IsAllSent = false;
+                IsOther = false;
+                break;
+
+                case StatusOfOrder.SentOther:
+                IsOther = true;
+                IsAllSent = false;
+                IsEmail = false;
+                break;
+            }
         }
 
         private void RadioButtonTapped(StatusOfOrder status) {
-
-            switch (status){
-                case StatusOfOrder.Finished:
-                    IsAllSent = true;
-                    IsEmail = false;
-                    IsOther = false;
-                    break;
-                
-                case StatusOfOrder.SentViaMail:
-                    IsEmail = true;
-                    IsAllSent = false;
-                    IsOther = false;
-                    break;
-
-                case StatusOfOrder.SentOther:
-                    IsOther= true;
-                    IsAllSent = false;
-                    IsEmail = false; 
-                    break;
-            }
+            // Κρατάω την επιλογή του χρήστη
+            Preferences.Set("ReportSetting", (int)status);
+            SetRadioButtonValue(status);
         }
 
         private void SearchForReportResults() {
@@ -114,7 +130,7 @@ namespace SnatchOrders.ViewModels
             }
 
             criteria.DateFrom = DateFrom;
-            criteria.DateTo = DateTo;
+            criteria.DateTo = DateTo.AddHours(23).AddMinutes(59).AddSeconds(59);
 
             _navigation.PushAsync(new ReportResultsPage(criteria));
         }

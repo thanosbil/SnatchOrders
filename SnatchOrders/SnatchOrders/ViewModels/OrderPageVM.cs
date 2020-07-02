@@ -31,7 +31,14 @@ namespace SnatchOrders.ViewModels
         }
         public Order _CurrentOrder { get; set; }
         public ObservableCollection<OrderItem> OrderItemsCollection { get; set; }
-        public ObservableCollection<OrderItemGroup> GroupedOrderItemsCollection { get; set; }
+        private ObservableCollection<OrderItemGroup> _groupedOrderItemsCollection { get; set; }
+        public ObservableCollection<OrderItemGroup> GroupedOrderItemsCollection {
+            get { return _groupedOrderItemsCollection; }
+            set {
+                _groupedOrderItemsCollection = value;
+                OnPropertyChanged("GroupedOrderItemsCollection");
+            } 
+        }
 
         public OrderPageVM(INavigation navigation, Order currentOrder) {
             _Navigation = navigation;
@@ -113,6 +120,7 @@ namespace SnatchOrders.ViewModels
         /// <returns></returns>
         private async Task GroupedCollectionBuilder(List<OrderItem> dbItems) {
             GroupedOrderItemsCollection.Clear();
+            List<OrderItemGroup> unsorted = new List<OrderItemGroup>();
 
             if (dbItems != null && dbItems.Count > 0) {
                 var CategoriesFoundInOrder = dbItems.Select(i => i.CategoryId).Distinct();
@@ -134,9 +142,14 @@ namespace SnatchOrders.ViewModels
                     // Και αδειάζω το Collection - default κατάσταση !Expanded
                     itemGroup.Clear();
                     // Βάζω το ItemGroup στο Collection
-                    GroupedOrderItemsCollection.Add(itemGroup);
-
+                    unsorted.Add(itemGroup);
                 }
+            }
+
+            unsorted = unsorted.OrderBy(i => i.GroupTitle).ToList();
+
+            foreach (OrderItemGroup group in unsorted) {
+                GroupedOrderItemsCollection.Add(group);
             }
         }
 

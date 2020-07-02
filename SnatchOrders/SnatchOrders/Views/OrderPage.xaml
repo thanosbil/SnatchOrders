@@ -19,47 +19,29 @@
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid Padding="15" BackgroundColor="#f5f5f5">
+                            <Grid Padding="15">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-
-                                <BoxView Grid.Row="0"
-                                             Grid.Column="0"
-                                             BackgroundColor="Black"
-                                             HeightRequest="1" 
-                                             VerticalOptions="Center"/>
-
                                 <Label Grid.Row="0"
-                                       Grid.Column="1" 
-                                       Style="{StaticResource LabelsDefault}"
+                                       Grid.Column="0" 
                                        FontSize="Medium">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding GroupTitle}" />
+                                            <Span Text="{Binding GroupTitle}" TextColor="Blue"/>
                                             <Span Text=" "/>
-                                            <Span Text="{Binding ItemCount, StringFormat='({0})'}" FontSize="Medium"/>
+                                            <Span Text="{Binding ItemCount, StringFormat='({0})'}" TextColor="Black"/>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-
-                                <BoxView Grid.Row="0"
-                                             Grid.Column="2"
-                                             BackgroundColor="Black"
-                                             HeightRequest="1" 
-                                             VerticalOptions="Center"/>
-
                                 <Image Grid.Row="0"
-                                       Grid.Column="3"
+                                       Grid.Column="1"
                                        Style="{StaticResource ImageSmall}"
                                        Source="{Binding StateIcon}" />
-                                
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
                                 </Grid.GestureRecognizers>
@@ -70,19 +52,17 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell x:Name="viewCell">
-                            <StackLayout Style="{StaticResource GroupItemStackPadding}" IsVisible="{Binding IsVisible}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}" Style="{StaticResource LabelsDefault}"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" Style="{StaticResource LabelsDefault}"/>
-                                </Grid>
-                            </StackLayout>
+                            <Grid Style="{StaticResource GroupItemPadding}" IsVisible="{Binding IsVisible}" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}" Style="{StaticResource LabelsDefault}" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" Style="{StaticResource LabelsDefault}"/>
+                            </Grid>                            
                             <ViewCell.ContextActions>
                                 <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference OrderItemsListView}, Path=BindingContext}"
                                           CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}" Command="{Binding DeleteOrderItemCommand}"/>

@@ -53,6 +53,8 @@ namespace SnatchOrders.ViewModels {
 
         public async void SearchForResults() {
             isLoading = true;
+            GroupedOrderItemsCollection.Clear();
+            List<OrderItemGroup> unsorted = new List<OrderItemGroup>();
             List<OrderItem> OrderItemsList;
             
             try {
@@ -90,7 +92,13 @@ namespace SnatchOrders.ViewModels {
                         // Και αδειάζω το Collection - default κατάσταση !Expanded
                         itemGroup.Clear();
                         // Βάζω το ItemGroup στο Collection
-                        GroupedOrderItemsCollection.Add(itemGroup);
+                        unsorted.Add(itemGroup);
+                    }
+
+                    unsorted = unsorted.OrderBy(i => i.GroupTitle).ToList();
+
+                    foreach (OrderItemGroup group in unsorted) {
+                        GroupedOrderItemsCollection.Add(group);
                     }
                 }
             }

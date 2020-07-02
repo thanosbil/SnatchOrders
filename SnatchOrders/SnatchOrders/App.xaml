@@ -48,12 +48,13 @@
             </Style>
             <Style x:Key="StackButtonPadding" TargetType="StackLayout">
                 <Setter Property="Padding" Value="10" />
-            </Style>
-            <Style x:Key="GroupItemStackPadding" TargetType="StackLayout">
-                <Setter Property="Padding" Value="25,15,15,15" />
-            </Style>
+            </Style>            
             <Style x:Key="PopupStackPadding" TargetType="StackLayout">
                 <Setter Property="Padding" Value="20" />
+            </Style>
+            <!--Grids-->
+            <Style x:Key="GroupItemPadding" TargetType="Grid">
+                <Setter Property="Padding" Value="25,15,15,15" />
             </Style>
             <!--Images-->
             <Style x:Key="ImageSmall" TargetType="Image">
