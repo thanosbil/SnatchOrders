@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -10,7 +11,27 @@ using Xamarin.Forms;
 namespace SnatchOrders.ViewModels {
     public class ReportResultsPageViewModel : ViewModelBase {
         public ICommand GroupTappedCommand { get; set; }
-        public ObservableCollection<OrderItemGroup> GroupedOrderItemsCollection { get; set; }        
+        private string searchType;
+        public string SearchType {
+            get { return searchType; }
+            set { 
+                if(searchType != value) {
+                    searchType = value;
+                    OnPropertyChanged("SearchType");
+                }
+            }
+        }
+        private int _ordersCount { get; set; }
+        public int OrdersCount {
+            get { return _ordersCount; }
+            set { 
+                if(_ordersCount != value) {
+                    _ordersCount = value;
+                    OnPropertyChanged("OrdersCount");
+                }
+            }
+        }
+        public ObservableCollection<ReportItemGroup> GroupedReportItemsCollection { get; set; }        
         public ReportCriteria Criteria { get; set; }
         private bool _isLoading { get; set; }
         public bool isLoading {
@@ -46,61 +67,60 @@ namespace SnatchOrders.ViewModels {
         public ReportResultsPageViewModel(INavigation navigation, ReportCriteria criteria) {
             _navigation = navigation;
             Criteria = criteria;
-            
-            GroupedOrderItemsCollection = new ObservableCollection<OrderItemGroup>();
+
+            GroupedReportItemsCollection = new ObservableCollection<ReportItemGroup>();
             GroupTappedCommand = new Command<OrderItemGroup>(GroupTapped);
         }
 
         public async void SearchForResults() {
             isLoading = true;
-            GroupedOrderItemsCollection.Clear();
-            List<OrderItemGroup> unsorted = new List<OrderItemGroup>();
-            List<OrderItem> OrderItemsList;
-            
+            GroupedReportItemsCollection.Clear();
+            List<Order> OrdersList;
+            List<ReportItemGroup> unsorted = new List<ReportItemGroup>();
+            List<ReportItem> ReportItemsList = new List<ReportItem>();
+            List<OrderItem> matchingItems = new List<OrderItem>();
             try {
-                OrderItemsList = await App.Database.GetOrderItemsForReportAsync(Criteria.ItemId, Criteria.CategoryId);
+                // Βρίσκω τις εγγραφές στη χρονική περίοδο που ορίζουν τα κριτήρια               
+                OrdersList = await App.Database.GetOrdersInTimePeriodAsync(Criteria);
 
-                if (OrderItemsList != null) {
+                if(OrdersList != null) {
+                    switch (Criteria.StatusCriteria) {
+                        case StatusOfOrder.Finished:
+                        SearchType = "Όλα";
+                        OrdersList = OrdersList.Where(order => order.OrderStatus >= StatusOfOrder.Finished).ToList();
+                        break;
 
-                    var CategoriesFoundInOrder = OrderItemsList.Select(i => i.CategoryId).Distinct();
+                        case StatusOfOrder.SentViaMail:
+                        SearchType = "Email";
+                        OrdersList = OrdersList.Where(order => order.OrderStatus == StatusOfOrder.SentViaMail).ToList();
+                        break;
 
-                    foreach (var categoryId in CategoriesFoundInOrder) {
-                        // Βρίσκω την κατηγορία 
-                        Category orderCategory = await App.Database.GetCategoryAsync(categoryId);
-                        // Φτιάχνω το ItemGroup
-                        OrderItemGroup itemGroup = new OrderItemGroup(orderCategory.Description, false);
-                        // Βρίσκω τα Items της κατηγορίας
-                        List<OrderItem> categorizedList = OrderItemsList.Where(i => i.CategoryId == categoryId).ToList();
-                        // Βάζω τα Items στο ItemGroup
-                        foreach (OrderItem item in categorizedList) {
-
-                            List<OrderItem> SameItemsInCategorizedList = categorizedList.Where(i => i.ItemId == item.ItemId).ToList();
-                            int countOfOccurances = SameItemsInCategorizedList.Count;
-                            bool isAlreadyAddedinGroup = itemGroup.Where(i => i.ItemId == item.ItemId).ToList().Count > 0;
-
-                            itemGroup.ItemCount += item.Count;
-
-                            if (countOfOccurances > 1 && isAlreadyAddedinGroup) {
-                                itemGroup.Where(i => i.ItemId == item.ItemId).ToList()[0].Count += item.Count;
-                            }
-                            else {
-                                itemGroup.Add(item);
-                            }                           
-                        }
-                        // Αντιγράφω τη λίστα 
-                        itemGroup.CopyList();
-                        // Και αδειάζω το Collection - default κατάσταση !Expanded
-                        itemGroup.Clear();
-                        // Βάζω το ItemGroup στο Collection
-                        unsorted.Add(itemGroup);
+                        case StatusOfOrder.SentOther:
+                        SearchType = "Άλλη μέθοδο";
+                        OrdersList = OrdersList.Where(order => order.OrderStatus == StatusOfOrder.SentOther).ToList();
+                        break;
                     }
 
-                    unsorted = unsorted.OrderBy(i => i.GroupTitle).ToList();
+                    OrdersCount = OrdersList.Count;
 
-                    foreach (OrderItemGroup group in unsorted) {
-                        GroupedOrderItemsCollection.Add(group);
+                    // Ψάχνω σε κάθε παραγγελία που ταιριάζει στα κριτήρια
+                    foreach (Order order in OrdersList) {
+                        // Αν ψάχνω συγκεκριμένο είδος και έχω id
+                        if (Criteria.ItemId > 0) {
+                            matchingItems.Add(order.AllItems.SingleOrDefault(item => item.ItemId == Criteria.ItemId));
+                        }
+                        // αν ψάχνω σε κατηγορία και έχω id κατηγορίας
+                        else if(Criteria.CategoryId > 0) {
+                            matchingItems.AddRange(order.AllItems.Where(item => item.CategoryId == Criteria.CategoryId));
+                        }
+                        // αν θέλω όλα τα είδη
+                        else {
+                            matchingItems.AddRange(order.AllItems);
+                        }
                     }
                 }
+
+                
             }
             catch (Exception ex) {
                 await App.Current.MainPage.DisplayAlert("Σφάλμα", "Παρουσιάστηκε πρόβλημα κατά την αναζήτηση"

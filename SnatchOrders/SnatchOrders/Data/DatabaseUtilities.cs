@@ -54,6 +54,16 @@ namespace SnatchOrders.Data
         }
 
         /// <summary>
+        /// Επιστρέφει τις παραγγελίες μέσα στη χρονική περίοδο που ορίζουν τα κριτήρια
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Order>> GetOrdersInTimePeriodAsync(ReportCriteria criteria) {
+            List<Order> OrderList = await database.Table<Order>().Where(order => order.DateCreated >= criteria.DateFrom && order.DateCreated <= criteria.DateTo)
+                .OrderByDescending(i => i.DateCreated).ToListAsync();            
+            return OrderList;
+        }
+
+        /// <summary>
         /// Διαγράφει μια παραγγελία
         /// </summary>
         /// <param name="item"></param>
@@ -75,7 +85,7 @@ namespace SnatchOrders.Data
         {
             return database.Table<Category>().Where(i => i.IsDeleted == false).OrderBy(i => i.Description).ToListAsync();
         }
-
+                
         public Task<Category> GetCategoryAsync(int id) {
             return database.Table<Category>().Where(i => i.ID == id).FirstOrDefaultAsync();
         }
@@ -176,16 +186,28 @@ namespace SnatchOrders.Data
             return database.Table<OrderItem>().Where(i => i.OrderId == OrderId).OrderBy(i => i.Description).ToListAsync();
         }
 
-        public Task<List<OrderItem>> GetOrderItemsForReportAsync(int itemId, int categoryId) {
+        public Task<OrderItem> GetSingleOrderItemAsync(int ItemId) {
+            return database.Table<OrderItem>().Where(i => i.ItemId == ItemId).OrderBy(i => i.Description).FirstOrDefaultAsync();
+        }
+
+        public Task<List<OrderItem>> GetOrderItemsInCategoryAsync(int CategoryId) {
+            return database.Table<OrderItem>().Where(i => i.CategoryId == CategoryId).OrderBy(i => i.Description).ToListAsync();
+        }
+
+        public async Task<List<OrderItem>> GetOrderItemsForReportAsync(ReportCriteria criteria) {
             List<OrderItem> itemsList = new List<OrderItem>();
 
-            if(itemId != 0) {
-                return database.Table<OrderItem>().Where(i => i.ItemId == itemId).OrderBy(i => i.Description).ToListAsync();
-            }else if (categoryId != 0) {
-                return database.Table<OrderItem>().Where(i => i.CategoryId == categoryId).OrderBy(i => i.Description).ToListAsync();
-            }
+            // Βρίσκω τις παραγγελίες στη χρονική περίοδο
+            //List<Order> ordersInSearchPeriod = await database.Table<Order>().Where(order => order.DateCreated >= criteria.DateFrom && order.DateCreated <= criteria.DateTo).ToListAsync();
 
-            return database.Table<OrderItem>().OrderBy(i => i.CategoryId).ThenBy(i => i.Description).ToListAsync();
+            //if(itemId != 0) {
+            //    return database.Table<OrderItem>().Where(i => i.ItemId == criteria.ItemId).OrderBy(i => i.Description).ToListAsync();
+            //}else if (categoryId != 0) {
+            //    return database.Table<OrderItem>().Where(i => i.CategoryId == categoryId).OrderBy(i => i.Description).ToListAsync();
+            //}
+
+            //return database.Table<OrderItem>().OrderBy(i => i.CategoryId).ThenBy(i => i.Description).ToListAsync();
+            return itemsList;
         }
 
         /// <summary>
@@ -202,6 +224,12 @@ namespace SnatchOrders.Data
         }
 
         #endregion OrderItem        
+
+        #region Report
+
+        
+
+        #endregion Report
 
         #region Email
 

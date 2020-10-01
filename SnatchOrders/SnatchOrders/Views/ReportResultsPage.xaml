@@ -10,7 +10,11 @@
         <StackLayout>
 
             <StackLayout IsVisible="{Binding isLoadingFinished}"
+                         Style="{StaticResource StackPadding}"
                          VerticalOptions="FillAndExpand">
+
+                <Label Text="Αναζήτηση σε" Style="{StaticResource LabelsEmphasized}"/>
+                <Label Text="{Binding SearchType}" />
 
                 <ListView x:Name="OrderItemsListView"
                       ItemsSource="{Binding GroupedOrderItemsCollection}"
@@ -63,20 +67,17 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Style="{StaticResource GroupItemStackPadding}" >
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}" Style="{StaticResource LabelsDefault}"/>
-                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" Style="{StaticResource LabelsDefault}"/>
-                                    </Grid>
-                                </StackLayout>
-        
+                                <Grid Style="{StaticResource GroupItemPadding}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}" Style="{StaticResource LabelsDefault}"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" Style="{StaticResource LabelsDefault}"/>
+                                </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>

@@ -45,6 +45,7 @@ namespace SnatchOrders.ViewModels
                 }
             }
         }
+        public StatusOfOrder SearchStatus { get; set; }
         public INavigation _navigation { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
@@ -85,13 +86,21 @@ namespace SnatchOrders.ViewModels
         private void PageInit() {
             int orderCrit = Preferences.Get("ReportSetting", 0);
 
-            if (orderCrit > 0)
+            if (orderCrit > 0) {
                 SetRadioButtonValue((StatusOfOrder)orderCrit);
-            else
+            }
+            else {
                 SetRadioButtonValue(StatusOfOrder.SentViaMail);
+            }
+                
         }
 
+        /// <summary>
+        /// Sets the Radio buttons behaviour
+        /// </summary>
+        /// <param name="status"></param>
         private void SetRadioButtonValue(StatusOfOrder status) {
+            this.SearchStatus = status;
             switch (status) {
                 case StatusOfOrder.Finished:
                 IsAllSent = true;
@@ -115,7 +124,7 @@ namespace SnatchOrders.ViewModels
 
         private void RadioButtonTapped(StatusOfOrder status) {
             // Κρατάω την επιλογή του χρήστη
-            Preferences.Set("ReportSetting", (int)status);
+            Preferences.Set("ReportSetting", (int)status);            
             SetRadioButtonValue(status);
         }
 
@@ -129,6 +138,7 @@ namespace SnatchOrders.ViewModels
                 criteria.CategoryId = SelectedCategory.ID;
             }
 
+            criteria.StatusCriteria = SearchStatus;
             criteria.DateFrom = DateFrom;
             criteria.DateTo = DateTo.AddHours(23).AddMinutes(59).AddSeconds(59);
 
