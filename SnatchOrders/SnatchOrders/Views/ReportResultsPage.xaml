@@ -17,7 +17,7 @@
                 <Label Text="{Binding SearchType}" />
 
                 <ListView x:Name="OrderItemsListView"
-                      ItemsSource="{Binding GroupedOrderItemsCollection}"
+                      ItemsSource="{Binding GroupedReportItemsCollection}"
                       IsGroupingEnabled="True"
                       HasUnevenRows="True">
                     <ListView.GroupHeaderTemplate>

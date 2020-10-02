@@ -23,6 +23,7 @@ namespace SnatchOrders.Models {
         public string StateIcon {
             get { return Expanded ? "baseline_expand_less_black_48.png" : "baseline_expand_more_black_48.png"; }
         }
+        public int CategoryId { get; set; }
 
         /// <summary>
         /// Constructor         
