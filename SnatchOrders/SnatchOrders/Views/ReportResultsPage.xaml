@@ -16,86 +16,89 @@
                 <Label Text="Αναζήτηση σε" Style="{StaticResource LabelsEmphasized}"/>
                 <Label Text="{Binding SearchType}" />
 
-                <ListView x:Name="OrderItemsListView"
-                      ItemsSource="{Binding GroupedReportItemsCollection}"
-                      IsGroupingEnabled="True"
-                      HasUnevenRows="True">
+                <ListView x:Name="OrderItemsListView" 
+                          ItemsSource="{Binding GroupedReportItemsCollection}" 
+                          IsGroupingEnabled="True" 
+                          HasUnevenRows="True"> 
+                    
                     <ListView.GroupHeaderTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <Grid Padding="15" BackgroundColor="#f5f5f5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <BoxView Grid.Row="0"
-                                             Grid.Column="0"
-                                             BackgroundColor="Black"
-                                             HeightRequest="1" 
-                                             VerticalOptions="Center"/>
-
+                               <ViewCell>
+                            <Grid Padding="15">
+                                
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                
                                     <Label Grid.Row="0"
-                                           Grid.Column="1" 
-                                           Text="{Binding GroupTitle}"
-                                           Style="{StaticResource LabelsDefault}"
-                                           FontSize="Medium" />
-
-                                    <BoxView Grid.Row="0"
-                                             Grid.Column="2"
-                                             BackgroundColor="Black"
-                                             HeightRequest="1" 
-                                             VerticalOptions="Center"/>
+                                           Grid.Column="0" 
+                                           FontSize="Medium" 
+                                           Text="{Binding GroupTitle}" TextColor="Blue"/>
 
                                     <Image Grid.Row="0"
-                                           Grid.Column="3"
-                                           Style="{StaticResource ImageSmall}"
-                                           Source="{Binding StateIcon}" />
-                                    
-                                    <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                                    </Grid.GestureRecognizers>
-                                </Grid>
-                            </ViewCell>
+                                       Grid.Column="1"
+                                       Style="{StaticResource ImageSmall}"
+                                       Source="{Binding StateIcon}" />
+                                
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                </Grid.GestureRecognizers>
+                                
+                            </Grid>
+                        </ViewCell>
                         </DataTemplate>
                     </ListView.GroupHeaderTemplate>
+                    
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid Style="{StaticResource GroupItemPadding}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}" Style="{StaticResource LabelsDefault}"/>
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" Style="{StaticResource LabelsDefault}"/>
-                                </Grid>
+                                <Frame CornerRadius="6"
+                                       Margin="10"
+                                       HasShadow="True">
+                                    <Grid Style="{StaticResource ReportItemPadding}">
+                                    
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                    
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                    
+                                        <Label Grid.Row="0" 
+                                               Grid.Column="0" 
+                                               Text="{Binding Description}" 
+                                               Style="{StaticResource LabelsDefault}"/>
+                                    
+                                        <Label Grid.Row="0" 
+                                               Grid.Column="1" 
+                                               Text="{Binding Count}" 
+                                               Style="{StaticResource LabelsDefault}"/>
+                                    
+                                    </Grid>
+                                </Frame>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-
-
 
             </StackLayout>
 
             <StackLayout x:Name="LoadingStack"
                          IsVisible="{Binding isLoading}"
                          VerticalOptions="FillAndExpand">
+                
                 <ActivityIndicator x:Name="LoadingIndicator" 
                                        HorizontalOptions="CenterAndExpand"
                                        VerticalOptions="CenterAndExpand"
                                        IsRunning="{Binding isLoading}" />
-            </StackLayout>
-        
+            </StackLayout>        
         
         </StackLayout>
     </ContentPage.Content>

@@ -31,7 +31,14 @@ namespace SnatchOrders.ViewModels {
                 }
             }
         }
-        public ObservableCollection<ReportItemGroup> GroupedReportItemsCollection { get; set; }        
+        private ObservableCollection<ReportItemGroup> groupedReportItemsCollection;
+        public ObservableCollection<ReportItemGroup> GroupedReportItemsCollection {
+            get { return groupedReportItemsCollection; }
+            set {
+                groupedReportItemsCollection = value;
+                OnPropertyChanged("GroupedReportItemsCollection");
+            }
+        }      
         public ReportCriteria Criteria { get; set; }
         private bool _isLoading { get; set; }
         public bool isLoading {
@@ -69,7 +76,7 @@ namespace SnatchOrders.ViewModels {
             Criteria = criteria;
 
             GroupedReportItemsCollection = new ObservableCollection<ReportItemGroup>();
-            GroupTappedCommand = new Command<OrderItemGroup>(GroupTapped);
+            GroupTappedCommand = new Command<ReportItemGroup>(GroupTapped);
         }
 
         public async void SearchForResults() {
@@ -130,6 +137,7 @@ namespace SnatchOrders.ViewModels {
                             Category category = await App.Database.GetCategoryAsync(orderItem.CategoryId);
                             // φτιάχνω το group με την περιγραφή
                             ReportGroup = new ReportItemGroup(category.Description, true);
+                            ReportGroup.CategoryId = category.ID;
                             // και το προσθέτω στο collection
                             GroupedReportItemsCollection.Add(ReportGroup);
                         }
@@ -148,6 +156,7 @@ namespace SnatchOrders.ViewModels {
                             reportItem.InNumberOfOrders = 1;
 
                             ReportGroup.Add(reportItem);
+                            ReportGroup.BackUpList.Add(reportItem);
                         }
                         else {
                             // αλλιώς το βρίσκω και προσθέτω την ποσότητα
@@ -168,13 +177,13 @@ namespace SnatchOrders.ViewModels {
             isLoading = false;
         }
 
-        private void GroupTapped(OrderItemGroup obj) {
+        private void GroupTapped(ReportItemGroup obj) {
             obj.Expanded = !obj.Expanded;
             if (!obj.Expanded) {
                 obj.Clear();
             }
             else {
-                foreach (OrderItem item in obj.BackUpList) {
+                foreach (ReportItem item in obj.BackUpList) {
                     obj.Add(item);
                 }
             }

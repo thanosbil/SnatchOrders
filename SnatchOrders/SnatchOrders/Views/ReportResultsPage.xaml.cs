@@ -28,7 +28,7 @@ namespace SnatchOrders.Views {
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e) {
             var grid = sender as Grid;
-            var group = grid.BindingContext as OrderItemGroup;
+            var group = grid.BindingContext as ReportItemGroup;
             reportResultsPageViewModel.GroupTappedCommand.Execute(group);
         }
     }
