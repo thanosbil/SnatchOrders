@@ -18,7 +18,7 @@
 
                 <ListView x:Name="OrderItemsListView" 
                           ItemsSource="{Binding GroupedReportItemsCollection}" 
-                          IsGroupingEnabled="True" 
+                          IsGroupingEnabled="True"
                           HasUnevenRows="True"> 
                     
                     <ListView.GroupHeaderTemplate>
@@ -60,27 +60,67 @@
                                 <Frame CornerRadius="6"
                                        Margin="10"
                                        HasShadow="True">
-                                    <Grid Style="{StaticResource ReportItemPadding}">
+                                    
+                                    <Grid>
                                     
                                         <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="1" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                     
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                     
                                         <Label Grid.Row="0" 
-                                               Grid.Column="0" 
+                                               Grid.ColumnSpan="2" 
                                                Text="{Binding Description}" 
                                                Style="{StaticResource LabelsDefault}"/>
-                                    
-                                        <Label Grid.Row="0" 
+
+                                        <BoxView Grid.Row="1"
+                                                 Grid.ColumnSpan="2"
+                                                 BackgroundColor="#B44E86" />
+
+                                        <Label Grid.Row="2" 
+                                               Grid.Column="0" 
+                                               Text="Ποσότητα:"
+                                               FontSize="Medium"/>
+
+                                        <Label Grid.Row="2" 
                                                Grid.Column="1" 
-                                               Text="{Binding Count}" 
-                                               Style="{StaticResource LabelsDefault}"/>
-                                    
+                                               Text="{Binding Quantity}"
+                                               Style="{StaticResource LabelsDefault}"
+                                               Margin="0,0,5,0"/>
+
+                                        <Label Grid.Row="3" 
+                                               Grid.Column="0" 
+                                               Text="Μέσος όρος/παραγγελία:" 
+                                               FontSize="Medium"/>
+
+                                        <Label Grid.Row="3" 
+                                               Grid.Column="1" 
+                                               Text="{Binding OrderAverageQuantity}"
+                                               Style="{StaticResource LabelsDefault}" 
+                                               Margin="0,0,5,0"/>
+
+                                        <Label Grid.Row="4" 
+                                               Grid.ColumnSpan="2">
+
+                                            <Label.FormattedText>
+                                                
+                                                <FormattedString>
+                                                    <Span Text="Σε "/>
+                                                    <Span Text="{Binding OrderAverageQuantity}" />
+                                                    <Span Text=" παραγγελίες"/>
+                                                    
+                                                </FormattedString>                                                
+                                                
+                                            </Label.FormattedText>
+                                            
+                                        </Label>
+
                                     </Grid>
                                 </Frame>
                             </ViewCell>
