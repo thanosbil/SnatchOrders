@@ -19,7 +19,7 @@
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid Padding="15">
+                            <Grid Padding="25,20,25,20" BackgroundColor="#efefef">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
@@ -29,12 +29,14 @@
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Row="0"
                                        Grid.Column="0" 
-                                       FontSize="Medium">
+                                       FontSize="Medium"
+                                       
+                                       FontAttributes="Italic">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span Text="{Binding GroupTitle}" TextColor="Blue"/>
+                                            <Span Text="{Binding GroupTitle}" />
                                             <Span Text=" "/>
-                                            <Span Text="{Binding ItemCount, StringFormat='({0})'}" TextColor="Black"/>
+                                            <Span Text="{Binding ItemCount, StringFormat='({0})'}" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -52,17 +54,32 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell x:Name="viewCell">
-                            <Grid Style="{StaticResource GroupItemPadding}" IsVisible="{Binding IsVisible}" >
+                            
+                            <Grid Style="{StaticResource GroupItemPadding}" 
+                                  IsVisible="{Binding IsVisible}" >
+                                
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
+                                
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="4*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Description}" Style="{StaticResource LabelsDefault}" />
-                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Count}" Style="{StaticResource LabelsDefault}"/>
+                                
+                                <Label Grid.Row="0" 
+                                       Grid.Column="0" 
+                                       Text="{Binding Description}" 
+                                       Style="{StaticResource LabelsDefault}" />
+                                
+                                <Label Grid.Row="0" 
+                                       Grid.Column="1" 
+                                       Text="{Binding Count}" 
+                                       Style="{StaticResource LabelsDefault}" 
+                                       TextColor="Black"/>
+                                
                             </Grid>                            
+                            
                             <ViewCell.ContextActions>
                                 <MenuItem Text="ΔΙΑΓΡΑΦΗ" BindingContext="{Binding Source={x:Reference OrderItemsListView}, Path=BindingContext}"
                                           CommandParameter="{Binding Source={x:Reference viewCell}, Path=BindingContext}" Command="{Binding DeleteOrderItemCommand}"/>

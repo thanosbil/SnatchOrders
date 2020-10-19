@@ -85,9 +85,13 @@
                     </StackLayout.Triggers>
                 </StackLayout>
             </StackLayout>
-            <ImageButton Source="fab_add.png" 
+            <ImageButton Source="baseline_add_white_48.png" 
                          Command="{Binding NewOrderCommand}"
-                         BackgroundColor="Transparent"
+                         HeightRequest="80"
+                         WidthRequest="80"
+                         CornerRadius="40"
+                         Padding="12"
+                         BackgroundColor="#2962ff"
                          AbsoluteLayout.LayoutFlags="PositionProportional" 
                          AbsoluteLayout.LayoutBounds=".96,.97,60,60" />
         </AbsoluteLayout>

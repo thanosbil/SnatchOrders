@@ -11,6 +11,26 @@ using Xamarin.Forms;
 namespace SnatchOrders.ViewModels {
     public class ReportResultsPageViewModel : ViewModelBase {
         public ICommand GroupTappedCommand { get; set; }
+        private string category;
+        public string Category {
+            get { return category; }
+            set {
+                if(category != value) {
+                    category = value;
+                    OnPropertyChanged("Category");
+                }
+            }
+        }
+        private string itemDescription;
+        public string ItemDescription {
+            get { return itemDescription; }
+            set {
+                if (itemDescription != value) {
+                    itemDescription = value;
+                    OnPropertyChanged("ItemDescription");
+                }
+            }
+        }        
         private string searchType;
         public string SearchType {
             get { return searchType; }
@@ -165,7 +185,7 @@ namespace SnatchOrders.ViewModels {
                             reportItem.InNumberOfOrders++;
                         }
                         // υπολογίζω τη μέση ποσότητα ανά παραγγελία
-                        reportItem.OrderAverageQuantity = reportItem.Quantity / reportItem.InNumberOfOrders;
+                        reportItem.OrderAverageQuantity = (decimal)reportItem.Quantity / reportItem.InNumberOfOrders;                        
                     }
                 }
             }

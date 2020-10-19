@@ -38,11 +38,7 @@ namespace SnatchOrders.Models
                 }
             }
         }
-        [Ignore]
-        public int AppearsInNumberOfOrders { get; set; }
-        [Ignore]
-        public int AverageQuantityPerOrder { get; set; }
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string propertyName = null) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

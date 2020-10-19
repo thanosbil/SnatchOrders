@@ -10,47 +10,104 @@
         <StackLayout>
 
             <StackLayout IsVisible="{Binding isLoadingFinished}"
-                         Style="{StaticResource StackPadding}"
+                         
                          VerticalOptions="FillAndExpand">
 
-                <Label Text="Αναζήτηση σε" Style="{StaticResource LabelsEmphasized}"/>
-                <Label Text="{Binding SearchType}" />
+                
 
                 <ListView x:Name="OrderItemsListView" 
                           ItemsSource="{Binding GroupedReportItemsCollection}" 
-                          IsGroupingEnabled="True"
-                          HasUnevenRows="True"> 
+                          IsGroupingEnabled="True" 
+                          HasUnevenRows="True" >
+
+                    <ListView.Header>
+                        <Grid Padding="15" BackgroundColor="#efefef" >                            
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />                                
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0"
+                                   Grid.ColumnSpan="4" >
+
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Αναζήτηση " 
+                                              Style="{StaticResource LabelsEmphasized}"/>
+                                        <Span Text="{Binding SearchType, StringFormat='({0})'}"
+                                              FontSize="Large"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                                
+                            </Label>
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="Από:"
+                                   FontSize="Medium"/>
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding Criteria.DateFrom, StringFormat='{0:dd/MM/yy}'}"
+                                   Style="{StaticResource LabelsDefault}"/>
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="2"
+                                   Text="εώς:"
+                                   FontSize="Medium"/>
+
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="3"
+                                   Text="{Binding Criteria.DateTo, StringFormat='{0:dd/MM/yy}'}}"
+                                   Style="{StaticResource LabelsDefault}"/>
+
+
+                            
+                        </Grid>                        
+                    </ListView.Header>
                     
                     <ListView.GroupHeaderTemplate>
                         <DataTemplate>
-                               <ViewCell>
-                            <Grid Padding="15">
+                            
+                            <ViewCell>
                                 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                                <Grid Padding="25,20,25,20">
                                 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
                                 
-                                    <Label Grid.Row="0"
-                                           Grid.Column="0" 
-                                           FontSize="Medium" 
-                                           Text="{Binding GroupTitle}" TextColor="Blue"/>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                
+                                        <Label Grid.Row="0"
+                                               Grid.Column="0" 
+                                               FontSize="Medium" 
+                                               Text="{Binding GroupTitle}" TextColor="Black" FontAttributes="Italic"/>
 
-                                    <Image Grid.Row="0"
-                                       Grid.Column="1"
-                                       Style="{StaticResource ImageSmall}"
-                                       Source="{Binding StateIcon}" />
+                                        <Image Grid.Row="0"
+                                           Grid.Column="1"
+                                           Style="{StaticResource ImageSmall}"
+                                           Source="{Binding StateIcon}" />
                                 
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                                </Grid.GestureRecognizers>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                                    </Grid.GestureRecognizers>
                                 
-                            </Grid>
-                        </ViewCell>
+                                </Grid>
+                            </ViewCell>
+                            
                         </DataTemplate>
                     </ListView.GroupHeaderTemplate>
                     
@@ -58,14 +115,16 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Frame CornerRadius="6"
-                                       Margin="10"
-                                       HasShadow="True">
+                                       Margin="15,10,15,10"
+                                       HasShadow="True"
+                                       BackgroundColor="#efefef">
                                     
                                     <Grid>
                                     
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="1" />
+                                            <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                     
@@ -92,34 +151,50 @@
                                                Grid.Column="1" 
                                                Text="{Binding Quantity}"
                                                Style="{StaticResource LabelsDefault}"
+                                               HorizontalTextAlignment="End"
                                                Margin="0,0,5,0"/>
 
                                         <Label Grid.Row="3" 
                                                Grid.Column="0" 
-                                               Text="Μέσος όρος/παραγγελία:" 
+                                               Text="Σε παραγγελίες:" 
                                                FontSize="Medium"/>
 
                                         <Label Grid.Row="3" 
                                                Grid.Column="1" 
-                                               Text="{Binding OrderAverageQuantity}"
+                                               Text="{Binding InNumberOfOrders}"
                                                Style="{StaticResource LabelsDefault}" 
+                                               HorizontalTextAlignment="End"
                                                Margin="0,0,5,0"/>
 
                                         <Label Grid.Row="4" 
+                                               Grid.Column="0" 
+                                               Text="Μ.Ο./παραγγελία:" 
+                                               FontSize="Medium"/>
+
+                                        <Label Grid.Row="4" 
+                                               Grid.Column="1" 
+                                               Text="{Binding OrderAverageQuantity, StringFormat='{0:}'}"
+                                               Style="{StaticResource LabelsDefault}" 
+                                               HorizontalTextAlignment="End"
+                                               Margin="0,0,5,0"/>
+
+                                        
+
+                                        <!--<Label Grid.Row="4" 
                                                Grid.ColumnSpan="2">
 
                                             <Label.FormattedText>
                                                 
                                                 <FormattedString>
                                                     <Span Text="Σε "/>
-                                                    <Span Text="{Binding OrderAverageQuantity}" />
+                                                    <Span Text="{Binding InNumberOfOrders}" />
                                                     <Span Text=" παραγγελίες"/>
                                                     
                                                 </FormattedString>                                                
                                                 
                                             </Label.FormattedText>
                                             
-                                        </Label>
+                                        </Label>-->
 
                                     </Grid>
                                 </Frame>
